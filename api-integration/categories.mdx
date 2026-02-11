@@ -1,10 +1,12 @@
 ---
 title: "Categories"
 icon: "layer-group"
-description: "Retrieve and manage categories for directories through the Directify API."
+description: "Manage categories for directories through the Directify API - create, read, update, and delete categories with full CRUD operations."
 ---
 
 ## Categories
+
+Categories help you organize listings in your directory into logical groups. Categories support hierarchical structures with parent-child relationships, allowing you to create nested category trees (e.g., "Web Development" > "Frontend" > "React").
 
 ### Get Directory Categories
 
@@ -25,18 +27,229 @@ GET /api/directories/{directory_id}/categories
     {
       "id": 1,
       "title": "Web Development",
-      "parent_title": null
+      "slug": "web-development",
+      "description": "Tools and resources for web development",
+      "icon": "code",
+      "custom_icon_url": null,
+      "parent_id": null,
+      "parent_title": null,
+      "is_active": true,
+      "show_on_sidebar": true,
+      "order": 0,
+      "created_at": "2024-01-15T10:30:00.000000Z",
+      "updated_at": "2024-01-15T10:30:00.000000Z"
     },
     {
       "id": 2,
       "title": "Frontend",
-      "parent_title": "Web Development"
+      "slug": "frontend",
+      "description": "Frontend frameworks and libraries",
+      "icon": "browser",
+      "custom_icon_url": null,
+      "parent_id": 1,
+      "parent_title": "Web Development",
+      "is_active": true,
+      "show_on_sidebar": true,
+      "order": 1,
+      "created_at": "2024-01-15T10:30:00.000000Z",
+      "updated_at": "2024-01-15T10:30:00.000000Z"
     },
     {
       "id": 3,
       "title": "Backend",
-      "parent_title": "Web Development"
+      "slug": "backend",
+      "description": "Backend frameworks and tools",
+      "icon": "server",
+      "custom_icon_url": null,
+      "parent_id": 1,
+      "parent_title": "Web Development",
+      "is_active": true,
+      "show_on_sidebar": true,
+      "order": 2,
+      "created_at": "2024-01-15T10:30:00.000000Z",
+      "updated_at": "2024-01-15T10:30:00.000000Z"
     }
   ]
 }
-``` 
+```
+
+### Get Single Category
+
+Retrieve a specific category by ID.
+
+```http
+GET /api/directories/{directory_id}/categories/{category_id}
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+- `category_id` (integer, required): The ID of the category
+
+**Response:**
+
+```json
+{
+  "data": {
+    "id": 2,
+    "title": "Frontend",
+    "slug": "frontend",
+    "description": "Frontend frameworks and libraries",
+    "icon": "browser",
+    "custom_icon_url": null,
+    "parent_id": 1,
+    "parent_title": "Web Development",
+    "is_active": true,
+    "show_on_sidebar": true,
+    "order": 1,
+    "created_at": "2024-01-15T10:30:00.000000Z",
+    "updated_at": "2024-01-15T10:30:00.000000Z"
+  }
+}
+```
+
+### Create Category
+
+Create a new category in the directory.
+
+```http
+POST /api/directories/{directory_id}/categories
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+
+**Request Body:**
+
+```json
+{
+  "title": "DevOps",
+  "slug": "devops",
+  "description": "DevOps tools, CI/CD, and infrastructure",
+  "icon": "gear",
+  "parent_id": null,
+  "is_active": true,
+  "show_on_sidebar": true,
+  "order": 3
+}
+```
+
+**Request Body Fields:**
+- `title` (string, required): The category title (max 255 characters)
+- `slug` (string, optional): URL-safe slug (lowercase letters, numbers, hyphens only). Auto-generated from title if not provided
+- `description` (string, optional): Category description
+- `icon` (string, optional): Icon identifier (max 255 characters)
+- `parent_id` (integer, optional): ID of the parent category for nested hierarchies. Must reference an existing category
+- `is_active` (boolean, optional): Whether the category is active (default: true)
+- `show_on_sidebar` (boolean, optional): Whether to display in the sidebar navigation (default: true)
+- `order` (integer, optional): Sort order for display (min: 0)
+
+**Response:**
+
+```json
+{
+  "data": {
+    "id": 4,
+    "title": "DevOps",
+    "slug": "devops",
+    "description": "DevOps tools, CI/CD, and infrastructure",
+    "icon": "gear",
+    "custom_icon_url": null,
+    "parent_id": null,
+    "parent_title": null,
+    "is_active": true,
+    "show_on_sidebar": true,
+    "order": 3,
+    "created_at": "2024-01-16T09:00:00.000000Z",
+    "updated_at": "2024-01-16T09:00:00.000000Z"
+  }
+}
+```
+
+### Update Category
+
+Update an existing category.
+
+```http
+PUT /api/directories/{directory_id}/categories/{category_id}
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+- `category_id` (integer, required): The ID of the category
+
+**Request Body:**
+
+```json
+{
+  "title": "DevOps & Infrastructure",
+  "description": "DevOps tools, CI/CD pipelines, and cloud infrastructure",
+  "order": 2
+}
+```
+
+**Request Body Fields:**
+- `title` (string, optional): The category title (max 255 characters)
+- `slug` (string, optional): URL-safe slug (lowercase letters, numbers, hyphens only)
+- `description` (string, optional): Category description
+- `icon` (string, optional): Icon identifier (max 255 characters)
+- `parent_id` (integer, optional): ID of the parent category. Must reference an existing category
+- `is_active` (boolean, optional): Whether the category is active
+- `show_on_sidebar` (boolean, optional): Whether to display in the sidebar navigation
+- `order` (integer, optional): Sort order for display (min: 0)
+
+**Response:**
+
+```json
+{
+  "data": {
+    "id": 4,
+    "title": "DevOps & Infrastructure",
+    "slug": "devops",
+    "description": "DevOps tools, CI/CD pipelines, and cloud infrastructure",
+    "icon": "gear",
+    "custom_icon_url": null,
+    "parent_id": null,
+    "parent_title": null,
+    "is_active": true,
+    "show_on_sidebar": true,
+    "order": 2,
+    "created_at": "2024-01-16T09:00:00.000000Z",
+    "updated_at": "2024-01-16T10:15:00.000000Z"
+  }
+}
+```
+
+### Delete Category
+
+Delete a category from the directory. When a parent category is deleted, its child categories will have their `parent_id` set to `null` (they become top-level categories).
+
+```http
+DELETE /api/directories/{directory_id}/categories/{category_id}
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+- `category_id` (integer, required): The ID of the category
+
+**Response:**
+
+```json
+{
+  "message": "Category deleted successfully"
+}
+```
+
+## Key Features
+
+### Hierarchical Categories
+- Categories support parent-child relationships via the `parent_id` field
+- You can create multi-level category trees for organizing listings
+- When a parent category is deleted, child categories are automatically promoted to top-level
+
+### Slug Generation
+- Slugs are automatically generated from the category title if not provided
+- Slugs must be URL-safe (lowercase letters, numbers, and hyphens only)
+
+### Sidebar Visibility
+- Use `show_on_sidebar` to control whether a category appears in the directory's sidebar navigation
+- Use `order` to control the display order of categories in the sidebar
