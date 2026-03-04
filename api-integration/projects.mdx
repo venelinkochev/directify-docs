@@ -244,6 +244,143 @@ POST /api/directories/{directory_id}/projects
 }
 ```
 
+### Bulk Create Listings
+
+Create multiple listings in a single request. Up to 100 listings can be created at once. Each listing is processed independently, so if one fails, the others will still be created.
+
+```http
+POST /api/directories/{directory_id}/projects/bulk
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+
+**Request Body:**
+
+```json
+{
+  "listings": [
+    {
+      "name": "Listing 1",
+      "description": "Description for listing 1",
+      "url": "https://example1.com",
+      "categories": [1, 2],
+      "tags": [1],
+      "is_active": true
+    },
+    {
+      "name": "Listing 2",
+      "description": "Description for listing 2",
+      "category_id": 3,
+      "is_featured": true
+    },
+    {
+      "name": "Listing 3",
+      "description": "Description for listing 3",
+      "url": "https://example3.com",
+      "email": "contact@example3.com",
+      "phone_number": "+1234567890",
+      "address": "123 Main St"
+    }
+  ]
+}
+```
+
+**Available fields per listing:**
+
+| Field | Type | Description |
+|---|---|---|
+| `name` | string, required | The listing name |
+| `description` | string | Short description |
+| `content` | string | Full content/body |
+| `url` | string | Website URL (used for duplicate detection) |
+| `email` | string | Contact email |
+| `phone_number` | string | Phone number |
+| `address` | string | Physical address |
+| `category_id` | integer | Single category ID |
+| `categories` | array | Array of category IDs |
+| `tags` | array | Array of tag IDs |
+| `is_active` | boolean | Published status (default: true) |
+| `is_featured` | boolean | Featured flag |
+| `is_no_follow` | boolean | NoFollow flag |
+| `logo_url` | string | Logo image URL |
+| `image_url` | string | Cover image URL |
+| `video_url` | string | Video URL |
+| `social_links` | object | Social media links |
+
+Custom field values can also be passed by using the custom field name as the key (e.g., `"pricing": "Free"`, `"founded_year": "2020"`).
+
+<Note>
+When a `url` is provided, the API uses it for duplicate detection. If a listing with the same URL already exists in the directory, it will be returned as-is instead of creating a duplicate.
+</Note>
+
+**Response (201 Created):**
+
+```json
+{
+  "data": [
+    {
+      "id": 123,
+      "name": "Listing 1",
+      "slug": "listing-1",
+      "description": "Description for listing 1",
+      "url": "https://example1.com",
+      "is_active": true,
+      "is_featured": false,
+      "categories": [
+        { "id": 1, "title": "Category A", "parent_title": null }
+      ],
+      "tags": [
+        { "id": 1, "title": "Tag 1", "slug": "tag-1" }
+      ],
+      "created_at": "2024-01-15T10:30:00.000000Z",
+      "updated_at": "2024-01-15T10:30:00.000000Z"
+    },
+    {
+      "id": 124,
+      "name": "Listing 2",
+      "slug": "listing-2",
+      "description": "Description for listing 2",
+      "is_active": true,
+      "is_featured": true,
+      "categories": [
+        { "id": 3, "title": "Category C", "parent_title": null }
+      ],
+      "created_at": "2024-01-15T10:30:00.000000Z",
+      "updated_at": "2024-01-15T10:30:00.000000Z"
+    }
+  ],
+  "errors": [],
+  "total_created": 2,
+  "total_errors": 0
+}
+```
+
+**Response with partial errors:**
+
+```json
+{
+  "data": [
+    {
+      "id": 123,
+      "name": "Listing 1",
+      "slug": "listing-1"
+    }
+  ],
+  "errors": [
+    {
+      "index": 1,
+      "name": "Listing 2",
+      "error": "Error description"
+    }
+  ],
+  "total_created": 1,
+  "total_errors": 1
+}
+```
+
+---
+
 ### Update Listing
 
 Update an existing listing.
