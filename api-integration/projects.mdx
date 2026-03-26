@@ -50,6 +50,8 @@ GET /api/directories/{directory_id}/projects
           "is_active": true
         }
       ],
+      "additional_image_urls": ["https://example.com/gallery1.jpg", "https://example.com/gallery2.jpg"],
+      "additional_images_urls": ["https://cdn.example.com/gallery1.jpg", "https://cdn.example.com/gallery2.jpg"],
       "listing_url": "https://your-directify-domain.com/app/1/projects/1/edit",
       "is_active": true,
       "is_featured": false,
@@ -117,6 +119,8 @@ GET /api/directories/{directory_id}/projects/{project_id}
         "is_active": true
       }
     ],
+    "additional_image_urls": ["https://example.com/gallery1.jpg", "https://example.com/gallery2.jpg"],
+    "additional_images_urls": ["https://cdn.example.com/gallery1.jpg", "https://cdn.example.com/gallery2.jpg"],
     "listing_url": "https://your-directify-domain.com/app/1/projects/1/edit",
     "is_active": true,
     "is_featured": false,
@@ -184,6 +188,10 @@ POST /api/directories/{directory_id}/projects
   "category_id": 1,
   "categories": [1, 2],
   "tags": [1, 3],
+  "additional_image_urls": [
+    "https://example.com/gallery1.jpg",
+    "https://example.com/gallery2.jpg"
+  ],
   "pricing": "Free",
   "job_type": "Full-time",
   "is_active": true,
@@ -233,6 +241,8 @@ POST /api/directories/{directory_id}/projects
         "is_active": true
       }
     ],
+    "additional_image_urls": ["https://example.com/gallery1.jpg", "https://example.com/gallery2.jpg"],
+    "additional_images_urls": ["https://cdn.example.com/gallery1.jpg", "https://cdn.example.com/gallery2.jpg"],
     "listing_url": "https://your-directify-domain.com/app/1/projects/123/edit",
     "is_active": true,
     "is_featured": false,
@@ -305,6 +315,7 @@ POST /api/directories/{directory_id}/projects/bulk
 | `is_no_follow` | boolean | NoFollow flag |
 | `logo_url` | string | Logo image URL |
 | `image_url` | string | Cover image URL |
+| `additional_image_urls` | array | Array of gallery image URLs |
 | `video_url` | string | Video URL |
 | `social_links` | object | Social media links |
 
@@ -438,6 +449,8 @@ PUT /api/directories/{directory_id}/projects/{project_id}
         "is_active": true
       }
     ],
+    "additional_image_urls": [],
+    "additional_images_urls": [],
     "listing_url": "https://your-directify-domain.com/app/1/projects/123/edit",
     "is_active": true,
     "is_featured": true,
