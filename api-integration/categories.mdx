@@ -30,12 +30,16 @@ GET /api/directories/{directory_id}/categories
       "slug": "web-development",
       "description": "Tools and resources for web development",
       "icon": "code",
+      "content": null,
       "custom_icon_url": null,
       "parent_id": null,
       "parent_title": null,
       "is_active": true,
       "show_on_sidebar": true,
       "order": 0,
+      "seo_title": null,
+      "seo_description": null,
+      "head_html": null,
       "created_at": "2024-01-15T10:30:00.000000Z",
       "updated_at": "2024-01-15T10:30:00.000000Z"
     },
@@ -44,6 +48,7 @@ GET /api/directories/{directory_id}/categories
       "title": "Frontend",
       "slug": "frontend",
       "description": "Frontend frameworks and libraries",
+      "content": null,
       "icon": "browser",
       "custom_icon_url": null,
       "parent_id": 1,
@@ -51,6 +56,9 @@ GET /api/directories/{directory_id}/categories
       "is_active": true,
       "show_on_sidebar": true,
       "order": 1,
+      "seo_title": null,
+      "seo_description": null,
+      "head_html": null,
       "created_at": "2024-01-15T10:30:00.000000Z",
       "updated_at": "2024-01-15T10:30:00.000000Z"
     },
@@ -59,6 +67,7 @@ GET /api/directories/{directory_id}/categories
       "title": "Backend",
       "slug": "backend",
       "description": "Backend frameworks and tools",
+      "content": null,
       "icon": "server",
       "custom_icon_url": null,
       "parent_id": 1,
@@ -66,6 +75,9 @@ GET /api/directories/{directory_id}/categories
       "is_active": true,
       "show_on_sidebar": true,
       "order": 2,
+      "seo_title": null,
+      "seo_description": null,
+      "head_html": null,
       "created_at": "2024-01-15T10:30:00.000000Z",
       "updated_at": "2024-01-15T10:30:00.000000Z"
     }
@@ -94,6 +106,7 @@ GET /api/directories/{directory_id}/categories/{category_id}
     "title": "Frontend",
     "slug": "frontend",
     "description": "Frontend frameworks and libraries",
+    "content": null,
     "icon": "browser",
     "custom_icon_url": null,
     "parent_id": 1,
@@ -101,6 +114,9 @@ GET /api/directories/{directory_id}/categories/{category_id}
     "is_active": true,
     "show_on_sidebar": true,
     "order": 1,
+    "seo_title": null,
+    "seo_description": null,
+    "head_html": null,
     "created_at": "2024-01-15T10:30:00.000000Z",
     "updated_at": "2024-01-15T10:30:00.000000Z"
   }
@@ -125,11 +141,16 @@ POST /api/directories/{directory_id}/categories
   "title": "DevOps",
   "slug": "devops",
   "description": "DevOps tools, CI/CD, and infrastructure",
+  "content": "Markdown content for the category page...",
   "icon": "gear",
+  "custom_icon_url": "https://example.com/icons/devops.png",
   "parent_id": null,
   "is_active": true,
   "show_on_sidebar": true,
-  "order": 3
+  "order": 3,
+  "seo_title": "DevOps Tools & Infrastructure",
+  "seo_description": "Browse the best DevOps tools, CI/CD pipelines, and cloud infrastructure resources.",
+  "head_html": "<link rel=\"alternate\" hreflang=\"es\" href=\"https://es.example.com/categories/devops\">"
 }
 ```
 
@@ -137,11 +158,16 @@ POST /api/directories/{directory_id}/categories
 - `title` (string, required): The category title (max 255 characters)
 - `slug` (string, optional): URL-safe slug (lowercase letters, numbers, hyphens only). Auto-generated from title if not provided
 - `description` (string, optional): Category description
+- `content` (string, optional): Markdown content displayed on the category page
 - `icon` (string, optional): Icon identifier (max 255 characters)
+- `custom_icon_url` (url, optional): URL to a custom icon image (max 2048 characters)
 - `parent_id` (integer, optional): ID of the parent category for nested hierarchies. Must reference an existing category
 - `is_active` (boolean, optional): Whether the category is active (default: true)
 - `show_on_sidebar` (boolean, optional): Whether to display in the sidebar navigation (default: true)
 - `order` (integer, optional): Sort order for display (min: 0)
+- `seo_title` (string, optional): SEO meta title (max 255 characters)
+- `seo_description` (string, optional): SEO meta description (max 500 characters)
+- `head_html` (string, optional): Custom HTML injected into the page `<head>` section, e.g. hreflang tags (max 10000 characters)
 
 **Response:**
 
@@ -152,13 +178,17 @@ POST /api/directories/{directory_id}/categories
     "title": "DevOps",
     "slug": "devops",
     "description": "DevOps tools, CI/CD, and infrastructure",
+    "content": "Markdown content for the category page...",
     "icon": "gear",
-    "custom_icon_url": null,
+    "custom_icon_url": "https://example.com/icons/devops.png",
     "parent_id": null,
     "parent_title": null,
     "is_active": true,
     "show_on_sidebar": true,
     "order": 3,
+    "seo_title": "DevOps Tools & Infrastructure",
+    "seo_description": "Browse the best DevOps tools, CI/CD pipelines, and cloud infrastructure resources.",
+    "head_html": "<link rel=\"alternate\" hreflang=\"es\" href=\"https://es.example.com/categories/devops\">",
     "created_at": "2024-01-16T09:00:00.000000Z",
     "updated_at": "2024-01-16T09:00:00.000000Z"
   }
@@ -191,11 +221,16 @@ PUT /api/directories/{directory_id}/categories/{category_id}
 - `title` (string, optional): The category title (max 255 characters)
 - `slug` (string, optional): URL-safe slug (lowercase letters, numbers, hyphens only)
 - `description` (string, optional): Category description
+- `content` (string, optional): Markdown content displayed on the category page
 - `icon` (string, optional): Icon identifier (max 255 characters)
+- `custom_icon_url` (url, optional): URL to a custom icon image (max 2048 characters)
 - `parent_id` (integer, optional): ID of the parent category. Must reference an existing category
 - `is_active` (boolean, optional): Whether the category is active
 - `show_on_sidebar` (boolean, optional): Whether to display in the sidebar navigation
 - `order` (integer, optional): Sort order for display (min: 0)
+- `seo_title` (string, optional): SEO meta title (max 255 characters)
+- `seo_description` (string, optional): SEO meta description (max 500 characters)
+- `head_html` (string, optional): Custom HTML injected into the page `<head>` section (max 10000 characters)
 
 **Response:**
 
@@ -206,13 +241,17 @@ PUT /api/directories/{directory_id}/categories/{category_id}
     "title": "DevOps & Infrastructure",
     "slug": "devops",
     "description": "DevOps tools, CI/CD pipelines, and cloud infrastructure",
+    "content": "Markdown content for the category page...",
     "icon": "gear",
-    "custom_icon_url": null,
+    "custom_icon_url": "https://example.com/icons/devops.png",
     "parent_id": null,
     "parent_title": null,
     "is_active": true,
     "show_on_sidebar": true,
     "order": 2,
+    "seo_title": "DevOps Tools & Infrastructure",
+    "seo_description": "Browse the best DevOps tools, CI/CD pipelines, and cloud infrastructure resources.",
+    "head_html": null,
     "created_at": "2024-01-16T09:00:00.000000Z",
     "updated_at": "2024-01-16T10:15:00.000000Z"
   }
@@ -253,3 +292,11 @@ DELETE /api/directories/{directory_id}/categories/{category_id}
 ### Sidebar Visibility
 - Use `show_on_sidebar` to control whether a category appears in the directory's sidebar navigation
 - Use `order` to control the display order of categories in the sidebar
+
+### SEO & Custom Head HTML
+- Use `seo_title` and `seo_description` to set per-category meta tags for search engines
+- Use `head_html` to inject custom HTML into the `<head>` section of category pages (e.g., hreflang tags for multi-language directories)
+- Use `content` to add rich markdown content displayed on the category page
+
+### Custom Icon
+- Use `custom_icon_url` to set a custom icon image URL for the category (displayed in category grids and navigation)

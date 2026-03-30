@@ -75,6 +75,7 @@ GET /api/directories/{directory_id}/projects
       "seo_description": "React makes it painless to create interactive UIs.",
       "og_image": null,
       "schema": null,
+      "head_html": null,
       "created_at": "2024-01-15T10:30:00.000000Z",
       "updated_at": "2024-01-15T10:30:00.000000Z",
       "listing_url": "https://your-directify-domain.com/app/1/projects/1/edit",
@@ -165,6 +166,7 @@ GET /api/directories/{directory_id}/projects/{project_id}
     "seo_description": "React makes it painless to create interactive UIs.",
     "og_image": null,
     "schema": null,
+    "head_html": null,
     "created_at": "2024-01-15T10:30:00.000000Z",
     "updated_at": "2024-01-15T10:30:00.000000Z",
     "listing_url": "https://your-directify-domain.com/app/1/projects/1/edit",
@@ -248,6 +250,7 @@ POST /api/directories/{directory_id}/projects
   ],
   "seo_title": "Example Tool - Best Developer Tool",
   "seo_description": "The leading tool for developers worldwide.",
+  "head_html": "<link rel=\"alternate\" hreflang=\"es\" href=\"https://es.example.com/listings/example-tool\">",
   "is_active": true,
   "is_featured": false,
   "pricing": "Free",
@@ -322,6 +325,7 @@ POST /api/directories/{directory_id}/projects
     "seo_description": "The leading tool for developers worldwide.",
     "og_image": null,
     "schema": null,
+    "head_html": null,
     "created_at": "2024-01-15T10:30:00.000000Z",
     "updated_at": "2024-01-15T10:30:00.000000Z",
     "listing_url": "https://your-directify-domain.com/app/1/projects/123/edit",
@@ -405,6 +409,7 @@ POST /api/directories/{directory_id}/projects/bulk
 | `seo_title` | string | SEO meta title |
 | `seo_description` | string | SEO meta description |
 | `schema` | string | JSON-LD schema markup |
+| `head_html` | string | Custom HTML for the page `<head>` section (e.g. hreflang tags) |
 
 Custom field values can also be passed by using the custom field name as the key (e.g., `"pricing": "Free"`, `"founded_year": "2020"`).
 
@@ -570,6 +575,7 @@ PUT /api/directories/{directory_id}/projects/{project_id}
     "seo_description": "The updated leading tool for developers.",
     "og_image": null,
     "schema": null,
+    "head_html": null,
     "created_at": "2024-01-15T10:30:00.000000Z",
     "updated_at": "2024-01-15T11:45:00.000000Z",
     "listing_url": "https://your-directify-domain.com/app/1/projects/123/edit",
@@ -577,6 +583,10 @@ PUT /api/directories/{directory_id}/projects/{project_id}
   }
 }
 ```
+
+<Note>
+**Partial updates:** When updating a listing, you only need to send the fields you want to change. Fields that are omitted from the request body will remain unchanged. Importantly, if you omit `categories` and `tags` from a PUT request, the existing category and tag assignments will be preserved. To explicitly clear them, send empty arrays: `"categories": []` or `"tags": []`.
+</Note>
 
 ### Delete Listing
 
