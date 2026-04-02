@@ -24,7 +24,9 @@ https://directify.app/api
 
 ## Rate Limiting
 
-API requests are limited to 60 requests per minute per authenticated user.
+API requests are limited to **120 requests per minute** per directory. This limit is designed to support automated workflows, including LLM-powered integrations that manage listings programmatically.
+
+If you exceed the rate limit, the API returns a `429 Too Many Requests` response. Implement exponential backoff and retry logic to handle this gracefully.
 
 ## Error Responses
 
