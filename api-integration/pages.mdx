@@ -1,0 +1,294 @@
+---
+title: "Custom Pages"
+icon: "file"
+description: "Manage custom pages through the Directify API - create, read, update, and delete pages with SEO support. Perfect for programmatic SEO pages like comparisons, location pages, About, Terms, and more."
+---
+
+## Custom Pages
+
+In Directify, **custom pages** are standalone pages that appear in your directory's navigation (navbar, footer, sidebar) or as unlisted pages accessible via URL. They're ideal for static content like About, Terms, comparison pages, and programmatic SEO content. Pages support Markdown content and full SEO metadata.
+
+### List Pages
+
+Retrieve all custom pages for a directory, ordered by sort order.
+
+```http
+GET /api/directories/{directory_id}/pages
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "title": "About Us",
+      "slug": "about-us",
+      "markdown": "# About Us\n\nWelcome to our directory...",
+      "placement": "navbar",
+      "is_markdown": true,
+      "is_published": true,
+      "is_external": false,
+      "external_url": null,
+      "new_tab": false,
+      "order": 0,
+      "seo": {
+        "id": 1,
+        "title": "About Us - My Directory",
+        "description": "Learn more about our directory and mission."
+      },
+      "page_url": "https://my-directory.com/pages/about-us/",
+      "created_at": "2024-01-15T10:30:00.000000Z",
+      "updated_at": "2024-01-15T10:30:00.000000Z"
+    }
+  ],
+  "links": { ... },
+  "meta": { ... }
+}
+```
+
+### Get Single Page
+
+Retrieve a specific page by ID.
+
+```http
+GET /api/directories/{directory_id}/pages/{page_id}
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+- `page_id` (integer, required): The ID of the page
+
+**Response:**
+
+```json
+{
+  "data": {
+    "id": 1,
+    "title": "About Us",
+    "slug": "about-us",
+    "markdown": "# About Us\n\nWelcome to our directory...",
+    "placement": "navbar",
+    "is_markdown": true,
+    "is_published": true,
+    "is_external": false,
+    "external_url": null,
+    "new_tab": false,
+    "order": 0,
+    "seo": {
+      "id": 1,
+      "title": "About Us - My Directory",
+      "description": "Learn more about our directory and mission."
+    },
+    "directory": {
+      "id": 1,
+      "name": "My Directory",
+      "slug": "my-directory",
+      "domain": "my-directory.com"
+    },
+    "page_url": "https://my-directory.com/pages/about-us/",
+    "created_at": "2024-01-15T10:30:00.000000Z",
+    "updated_at": "2024-01-15T10:30:00.000000Z"
+  }
+}
+```
+
+### Create Page
+
+Create a new custom page. Uses `updateOrCreate` based on slug to prevent duplicates.
+
+```http
+POST /api/directories/{directory_id}/pages
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+
+**Request Body:**
+
+```json
+{
+  "title": "Best Pizza in NYC vs Chicago",
+  "slug": "pizza-nyc-vs-chicago",
+  "markdown": "# Best Pizza: NYC vs Chicago\n\nA detailed comparison of pizza styles...",
+  "placement": "unlisted",
+  "is_published": true,
+  "order": 0,
+  "seo": {
+    "title": "Best Pizza in NYC vs Chicago - Complete Comparison",
+    "description": "Compare NYC thin crust and Chicago deep dish pizza. Find the best pizza restaurants in both cities."
+  }
+}
+```
+
+**Request Body Fields:**
+- `title` (string, required): The page title (max 255 characters)
+- `slug` (string, optional): URL-safe slug (lowercase letters, numbers, hyphens only). Auto-generated from title if not provided
+- `markdown` (string, optional): Page content in Markdown format
+- `placement` (string, optional): Where the page link appears in navigation. One of:
+  - `navbar` - Appears in the top navigation
+  - `footer` - Appears in the footer
+  - `sidebar` - Appears in the sidebar
+  - `unlisted` - Not shown in navigation, accessible only via direct URL (default)
+- `is_published` (boolean, optional): Whether the page is published (default: true)
+- `is_external` (boolean, optional): Whether this is a link to an external URL (default: false)
+- `external_url` (string, optional): External URL if `is_external` is true (must be a valid URL)
+- `new_tab` (boolean, optional): Whether external links open in a new tab (default: false)
+- `order` (integer, optional): Sort order for navigation placement (default: 0)
+- `seo` (object, optional): SEO metadata object:
+  - `title` (string, optional): SEO title (max 255 characters)
+  - `description` (string, optional): Meta description (max 500 characters)
+
+**Response:**
+
+```json
+{
+  "data": {
+    "id": 5,
+    "title": "Best Pizza in NYC vs Chicago",
+    "slug": "pizza-nyc-vs-chicago",
+    "markdown": "# Best Pizza: NYC vs Chicago\n\nA detailed comparison of pizza styles...",
+    "placement": "unlisted",
+    "is_markdown": true,
+    "is_published": true,
+    "is_external": false,
+    "external_url": null,
+    "new_tab": false,
+    "order": 0,
+    "seo": {
+      "id": 5,
+      "title": "Best Pizza in NYC vs Chicago - Complete Comparison",
+      "description": "Compare NYC thin crust and Chicago deep dish pizza. Find the best pizza restaurants in both cities."
+    },
+    "directory": {
+      "id": 1,
+      "name": "My Directory",
+      "slug": "my-directory",
+      "domain": "my-directory.com"
+    },
+    "page_url": "https://my-directory.com/pages/pizza-nyc-vs-chicago/",
+    "created_at": "2024-03-15T10:00:00.000000Z",
+    "updated_at": "2024-03-15T10:00:00.000000Z"
+  }
+}
+```
+
+### Update Page
+
+Update an existing page. Only pass fields you want to change. If the title changes and no slug is provided, a new slug is auto-generated.
+
+```http
+PUT /api/directories/{directory_id}/pages/{page_id}
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+- `page_id` (integer, required): The ID of the page
+
+**Request Body:**
+
+```json
+{
+  "markdown": "# Best Pizza: NYC vs Chicago\n\nUpdated comparison with new restaurants...",
+  "seo": {
+    "title": "Best Pizza in NYC vs Chicago (2024 Update)",
+    "description": "Updated comparison of NYC thin crust and Chicago deep dish pizza with the latest restaurant reviews."
+  }
+}
+```
+
+**Request Body Fields:**
+Same as Create Page, all fields optional.
+
+**Response:**
+Returns the updated page object (same format as Create Page response).
+
+### Toggle Page Status
+
+Toggle a page between published and unpublished.
+
+```http
+PATCH /api/directories/{directory_id}/pages/{page_id}/toggle
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+- `page_id` (integer, required): The ID of the page
+
+**Response:**
+Returns the updated page object with toggled `is_published` status.
+
+### Delete Page
+
+Delete a custom page from the directory.
+
+```http
+DELETE /api/directories/{directory_id}/pages/{page_id}
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+- `page_id` (integer, required): The ID of the page
+
+**Response:**
+
+```json
+{
+  "message": "Page deleted successfully"
+}
+```
+
+## Use Cases
+
+### Programmatic SEO Pages
+Create comparison pages, location pages, or "X vs Y" pages at scale using the API:
+
+```bash
+curl -X POST https://directify.app/api/directories/1/pages \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Best Restaurants in Brooklyn vs Manhattan",
+    "markdown": "# Brooklyn vs Manhattan Restaurants\n\n...",
+    "placement": "unlisted",
+    "seo": {
+      "title": "Best Restaurants: Brooklyn vs Manhattan Compared",
+      "description": "Compare the best restaurants in Brooklyn and Manhattan..."
+    }
+  }'
+```
+
+### Static Content Pages
+Create About, Terms, Privacy Policy, or FAQ pages that appear in your navigation:
+
+```bash
+curl -X POST https://directify.app/api/directories/1/pages \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Terms of Service",
+    "markdown": "# Terms of Service\n\nLast updated: January 2024...",
+    "placement": "footer",
+    "order": 1
+  }'
+```
+
+### External Links in Navigation
+Add external links to your directory's navigation:
+
+```bash
+curl -X POST https://directify.app/api/directories/1/pages \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Submit a Listing",
+    "is_external": true,
+    "external_url": "https://forms.google.com/your-form",
+    "new_tab": true,
+    "placement": "navbar"
+  }'
+```

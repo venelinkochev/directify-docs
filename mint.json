@@ -148,6 +148,7 @@
         "api-integration/tags",
         "api-integration/custom-fields",
         "api-integration/articles",
+        "api-integration/pages",
         "api-integration/sdk-examples"
       ]
     }
