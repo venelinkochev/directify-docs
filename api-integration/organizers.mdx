@@ -1,0 +1,294 @@
+---
+title: "Organizers"
+icon: "building"
+description: "Manage organizers for directories through the Directify API - create, read, update, and delete organizers with full CRUD operations."
+---
+
+## Organizers
+
+Organizers represent entities such as agencies, studios, or event organizers associated with your directory. They have their own profile pages with contact information, social links, and can be linked to multiple listings. Organizers can also be assigned to submitter users, allowing them to manage their own profile from the submitter dashboard.
+
+<Note>
+  The organizers feature must be enabled in your directory settings before organizer pages become publicly visible. You can still manage organizers via the API regardless of this setting.
+</Note>
+
+### Get Directory Organizers
+
+Retrieve all organizers for a specific directory, including their associated listings.
+
+```http
+GET /api/directories/{directory_id}/organizers
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Acme Events Co.",
+      "slug": "acme-events-co",
+      "description": "Leading event organizer in the region.",
+      "logo": "organizers/logos/acme-logo.png",
+      "logo_url": "https://yourdomain.com/storage/organizers/logos/acme-logo.png",
+      "cover_image": "organizers/covers/acme-cover.jpg",
+      "cover_image_url": "https://yourdomain.com/storage/organizers/covers/acme-cover.jpg",
+      "email": "hello@acme-events.com",
+      "phone": "+1 555-0100",
+      "website_url": "https://acme-events.com",
+      "social_links": {
+        "Twitter": "https://twitter.com/acmeevents",
+        "LinkedIn": "https://linkedin.com/company/acmeevents"
+      },
+      "user_id": 42,
+      "is_active": true,
+      "order": 0,
+      "projects": [
+        {
+          "id": 10,
+          "name": "Summer Music Festival"
+        }
+      ],
+      "created_at": "2026-04-10T12:00:00.000000Z",
+      "updated_at": "2026-04-10T12:00:00.000000Z"
+    }
+  ]
+}
+```
+
+### Get Single Organizer
+
+Retrieve a specific organizer by ID, including their associated listings.
+
+```http
+GET /api/directories/{directory_id}/organizers/{organizer_id}
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+- `organizer_id` (integer, required): The ID of the organizer
+
+**Response:**
+
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Acme Events Co.",
+    "slug": "acme-events-co",
+    "description": "Leading event organizer in the region.",
+    "logo": "organizers/logos/acme-logo.png",
+    "logo_url": "https://yourdomain.com/storage/organizers/logos/acme-logo.png",
+    "cover_image": "organizers/covers/acme-cover.jpg",
+    "cover_image_url": "https://yourdomain.com/storage/organizers/covers/acme-cover.jpg",
+    "email": "hello@acme-events.com",
+    "phone": "+1 555-0100",
+    "website_url": "https://acme-events.com",
+    "social_links": {
+      "Twitter": "https://twitter.com/acmeevents",
+      "LinkedIn": "https://linkedin.com/company/acmeevents"
+    },
+    "user_id": 42,
+    "is_active": true,
+    "order": 0,
+    "projects": [
+      {
+        "id": 10,
+        "name": "Summer Music Festival"
+      }
+    ],
+    "created_at": "2026-04-10T12:00:00.000000Z",
+    "updated_at": "2026-04-10T12:00:00.000000Z"
+  }
+}
+```
+
+### Create Organizer
+
+Create a new organizer in the directory.
+
+```http
+POST /api/directories/{directory_id}/organizers
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+
+**Request Body:**
+
+```json
+{
+  "name": "Bright Studios",
+  "description": "Creative agency specializing in digital experiences.",
+  "email": "info@brightstudios.com",
+  "phone": "+1 555-0200",
+  "website_url": "https://brightstudios.com",
+  "social_links": {
+    "Instagram": "https://instagram.com/brightstudios"
+  },
+  "user_id": 15,
+  "is_active": true
+}
+```
+
+**Request Body Fields:**
+- `name` (string, required): The organizer name (max 255 characters)
+- `slug` (string, optional): URL-safe slug (lowercase letters, numbers, hyphens only). Auto-generated from name if not provided
+- `description` (string, optional): A description of the organizer
+- `logo` (string, optional): Path to the logo image (max 255 characters)
+- `cover_image` (string, optional): Path to the cover image (max 255 characters)
+- `email` (string, optional): Contact email address
+- `phone` (string, optional): Contact phone number (max 255 characters)
+- `website_url` (string, optional): Website URL (must be a valid URL)
+- `social_links` (object, optional): Key-value pairs of platform names and URLs
+- `user_id` (integer, optional): ID of a user to assign as the organizer owner. When set, this user can manage the organizer profile from the submitter dashboard
+- `is_active` (boolean, optional): Whether the organizer is active (default: true)
+- `order` (integer, optional): Sort order for display (default: 0)
+
+**Response:**
+
+```json
+{
+  "data": {
+    "id": 2,
+    "name": "Bright Studios",
+    "slug": "bright-studios",
+    "description": "Creative agency specializing in digital experiences.",
+    "logo": null,
+    "logo_url": null,
+    "cover_image": null,
+    "cover_image_url": null,
+    "email": "info@brightstudios.com",
+    "phone": "+1 555-0200",
+    "website_url": "https://brightstudios.com",
+    "social_links": {
+      "Instagram": "https://instagram.com/brightstudios"
+    },
+    "user_id": 15,
+    "is_active": true,
+    "order": 0,
+    "projects": [],
+    "created_at": "2026-04-10T14:00:00.000000Z",
+    "updated_at": "2026-04-10T14:00:00.000000Z"
+  }
+}
+```
+
+### Update Organizer
+
+Update an existing organizer. Only include the fields you want to change.
+
+```http
+PUT /api/directories/{directory_id}/organizers/{organizer_id}
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+- `organizer_id` (integer, required): The ID of the organizer
+
+**Request Body:**
+
+```json
+{
+  "name": "Bright Studios Agency",
+  "email": "contact@brightstudios.com",
+  "social_links": {
+    "Instagram": "https://instagram.com/brightstudios",
+    "Twitter": "https://twitter.com/brightstudios"
+  }
+}
+```
+
+**Request Body Fields:**
+- `name` (string, optional): The organizer name (max 255 characters)
+- `slug` (string, optional): URL-safe slug (lowercase letters, numbers, hyphens only)
+- `description` (string, optional): A description of the organizer
+- `logo` (string, optional): Path to the logo image (max 255 characters)
+- `cover_image` (string, optional): Path to the cover image (max 255 characters)
+- `email` (string, optional): Contact email address
+- `phone` (string, optional): Contact phone number (max 255 characters)
+- `website_url` (string, optional): Website URL (must be a valid URL)
+- `social_links` (object, optional): Key-value pairs of platform names and URLs
+- `user_id` (integer, optional): ID of a user to assign as the organizer owner
+- `is_active` (boolean, optional): Whether the organizer is active
+- `order` (integer, optional): Sort order for display
+
+**Response:**
+
+```json
+{
+  "data": {
+    "id": 2,
+    "name": "Bright Studios Agency",
+    "slug": "bright-studios",
+    "description": "Creative agency specializing in digital experiences.",
+    "logo": null,
+    "logo_url": null,
+    "cover_image": null,
+    "cover_image_url": null,
+    "email": "contact@brightstudios.com",
+    "phone": "+1 555-0200",
+    "website_url": "https://brightstudios.com",
+    "social_links": {
+      "Instagram": "https://instagram.com/brightstudios",
+      "Twitter": "https://twitter.com/brightstudios"
+    },
+    "user_id": 15,
+    "is_active": true,
+    "order": 0,
+    "projects": [],
+    "created_at": "2026-04-10T14:00:00.000000Z",
+    "updated_at": "2026-04-10T15:30:00.000000Z"
+  }
+}
+```
+
+### Delete Organizer
+
+Delete an organizer from the directory. This also removes all listing associations.
+
+```http
+DELETE /api/directories/{directory_id}/organizers/{organizer_id}
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+- `organizer_id` (integer, required): The ID of the organizer
+
+**Response:**
+
+```json
+{
+  "message": "Organizer deleted successfully"
+}
+```
+
+## Key Features
+
+### Slug Generation
+- Slugs are automatically generated from the organizer name if not provided
+- Slugs must be URL-safe (lowercase letters, numbers, and hyphens only)
+
+### User Assignment
+- Set `user_id` to assign an organizer to a submitter user
+- Assigned users can edit their organizer profile from the submitter dashboard
+- Users can only manage one organizer per directory
+- New listings created by the assigned user are automatically linked to their organizer
+
+### Listing Association
+- Organizers have a many-to-many relationship with listings
+- One organizer can be linked to multiple listings
+- One listing can belong to multiple organizers
+- Linking is managed through the listing form in the admin panel or via the Projects API
+
+### Configurable Labels
+- The "Organizer" label can be customized per directory in settings (e.g., "Agency", "Studio", "Vendor")
+- This affects navigation labels, breadcrumbs, and public page headings
+
+### Public Pages
+- When the organizers feature is enabled, a public browse page and profile page are available
+- The route prefix is configurable (default: `/organizers`, can be changed to `/agencies`, etc.)

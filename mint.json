@@ -146,6 +146,7 @@
         "api-integration/projects",
         "api-integration/categories",
         "api-integration/tags",
+        "api-integration/organizers",
         "api-integration/custom-fields",
         "api-integration/articles",
         "api-integration/pages",
