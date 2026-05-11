@@ -83,6 +83,7 @@
       "group": "Integrations",
       "pages": [
         "integrations/screenshotone",
+        "integrations/converthub",
         "integrations/openai",
         "integrations/google-sheets",
         "integrations/webhooks",

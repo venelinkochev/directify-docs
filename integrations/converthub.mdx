@@ -1,0 +1,59 @@
+---
+title: 'ConvertHub Integration'
+sidebarTitle: 'ConvertHub'
+description: 'Complete guide to integrating ConvertHub with Directify. Compress listing and directory images from PNG/JPG to WebP for faster pages, better Core Web Vitals scores, and a smaller CDN footprint.'
+icon: 'image'
+---
+
+Compress and convert your listing and directory images to modern WebP in one click with [ConvertHub](https://converthub.com). This integration shrinks PNG/JPG uploads by up to 70% without changing a single listing URL, lifting Core Web Vitals scores and reducing CDN bandwidth across your directory.
+
+## Key Features
+
+- **Convert PNG and JPG → WebP** at any scale, from a single listing to thousands across your directory
+- **Per-category dashboard** — pick exactly which surface to optimize: Listings, Directory branding, Articles, or Organizers
+- **Live ConvertHub credit balance** — see remaining credits in the dashboard header before you spend
+- **In-place replacement** — the listing or article URL stays the same, only the file gets smaller
+- **One-click retry on failure** — failed conversions land in a dedicated table with a Retry action per row
+- **Manual control** — no conversion ever runs automatically on upload, so you stay in charge of credit spend
+
+## Setup
+
+To enable ConvertHub integration:
+
+1. Create a [ConvertHub account](https://converthub.com/api/signup)
+2. Grab your API key from the developer dashboard
+3. Go to **Settings → Integrations** inside Directify
+4. Paste your API key into the **ConvertHub** section and click **Save** — Directify validates the key with ConvertHub before storing it (encrypted at rest)
+5. Open the new **Settings → Image Optimization** page that appears once the key is saved
+
+## How It Works
+
+### Eligible images
+
+Directify scans your directory and counts every PNG/JPG that has not already been optimized. WebP and AVIF originals are skipped automatically, so the eligible count is always honest.
+
+### Optimize on demand
+
+The Image Optimization dashboard groups your images into four category cards: **Listings**, **Directory branding**, **Articles**, and **Organizers**. Each card shows how many images are eligible, how many are already optimized, how many are queued, and how much storage you have already saved. Click **Optimize** on any card and Directify queues a background job per image.
+
+### Background conversion
+
+Each job submits the source URL to ConvertHub, polls until the conversion is ready, downloads the WebP, and swaps the file in place on your CDN. The database column is updated atomically so visitors always see a valid image — there is no in-between state.
+
+### Failure handling
+
+If a conversion fails (out of credits, network blip, unsupported source), the original image is left untouched and the failure shows up in a **Failed optimizations** table with a one-click **Retry** action per row. You can retry individual failures at any time.
+
+### Plan gating
+
+ConvertHub sits behind the same `integrations` plan feature as Google Sheets, OpenAI, SEOBot, and BlogBuster. If your plan already includes integrations, ConvertHub is available immediately under **Settings → Integrations**.
+
+<Note>
+API usage is billed directly by ConvertHub based on your account plan. Directify does not mark up conversions — every credit you spend goes to ConvertHub at their published price. Most simple PNG/JPG → WebP conversions cost a single credit.
+</Note>
+
+<Note>
+No conversion ever runs automatically on upload. Every optimization is an explicit click in the dashboard, so you stay in full control of credit spend and image quality.
+</Note>
+
+With [ConvertHub](https://converthub.com), you can shrink your image footprint, speed up your pages, and lift SEO scores — without changing a single listing URL.
