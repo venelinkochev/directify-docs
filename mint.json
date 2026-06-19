@@ -140,6 +140,15 @@
       ]
     },
     {
+      "group": "AI & Automation",
+      "pages": [
+        "ai-tools/overview",
+        "ai-tools/mcp-server",
+        "ai-tools/cli",
+        "ai-tools/agent"
+      ]
+    },
+    {
       "group": "API",
       "pages": [
         "api-integration/authentication",

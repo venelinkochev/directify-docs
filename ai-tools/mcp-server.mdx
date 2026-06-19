@@ -1,0 +1,240 @@
+---
+title: "Connect the MCP Server to Claude, Cursor & More"
+icon: "plug"
+description: "Step-by-step setup for the Directify MCP server. Connect Claude Desktop, Claude Code, Cursor, or any MCP-compatible AI assistant and manage your directory in plain English."
+---
+
+## What is the MCP server?
+
+The **Model Context Protocol (MCP)** is an open standard that lets AI assistants use external tools. The Directify MCP server exposes your directory's management actions — creating listings, categories, tags, custom fields, organizers, articles, and pages — as tools the AI can call.
+
+Once connected, you simply chat:
+
+> *"Add a listing called Bella Trattoria, Italian category, price range $$, and link it to the Acme Events organizer."*
+
+…and the assistant does it for you.
+
+## Video walkthrough
+
+{/* TODO: When the video is published, replace VIDEO_ID and remove the "coming soon" callout. */}
+
+<Note>
+📹 **Video coming soon** — a full walkthrough of connecting the MCP server to Claude. Follow [@venelinkochev on YouTube](https://www.youtube.com/@venelinkochev) to get notified.
+</Note>
+
+{/*
+<Frame caption="Connecting the Directify MCP server to Claude">
+  <iframe
+    width="100%"
+    height="420"
+    src="https://www.youtube.com/embed/VIDEO_ID"
+    title="Connect the Directify MCP server to Claude"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+  ></iframe>
+</Frame>
+*/}
+
+## Step 1 — Get your credentials
+
+<Steps>
+  <Step title="Generate an API token">
+    In your Directify dashboard, go to **Settings → API** and click the **Key icon** to generate a token. Copy it — it's shown only once.
+  </Step>
+  <Step title="Note your Directory ID">
+    Find it in the dashboard URL (`/app/{directory_id}/...`). It's optional in most setups — if you skip it, the assistant will ask which directory to use, or you can say *"list my directories"*.
+  </Step>
+</Steps>
+
+## Step 2 — Choose remote or local
+
+<CardGroup cols={2}>
+  <Card title="Remote (recommended)" icon="cloud">
+    Use our hosted server at `https://mcp.directify.app/mcp`. **No installation** — nothing to install or update.
+  </Card>
+  <Card title="Local" icon="laptop">
+    Run the `directify-mcp` npm package on your own machine. Requires [Node.js 18+](https://nodejs.org).
+  </Card>
+</CardGroup>
+
+## Step 3 — Add it to your AI client
+
+Replace `YOUR_API_TOKEN` with your token and `YOUR_DIRECTORY_ID` with your directory's ID in the examples below.
+
+<Tabs>
+  <Tab title="Claude Desktop">
+    Open **Settings → Developer → Edit Config**, or edit the file directly:
+
+    - **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+    - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+
+    **Remote (recommended):**
+
+    ```json
+    {
+      "mcpServers": {
+        "directify": {
+          "command": "npx",
+          "args": [
+            "-y", "mcp-remote",
+            "https://mcp.directify.app/mcp",
+            "--header", "Authorization:Bearer YOUR_API_TOKEN",
+            "--header", "X-Directory-ID:YOUR_DIRECTORY_ID"
+          ]
+        }
+      }
+    }
+    ```
+
+    **Local:**
+
+    ```json
+    {
+      "mcpServers": {
+        "directify": {
+          "command": "npx",
+          "args": ["-y", "directify-mcp"],
+          "env": {
+            "DIRECTIFY_API_TOKEN": "YOUR_API_TOKEN",
+            "DIRECTIFY_DIRECTORY_ID": "YOUR_DIRECTORY_ID"
+          }
+        }
+      }
+    }
+    ```
+
+    **Fully quit and reopen Claude Desktop** (not just close the window) for the change to take effect.
+  </Tab>
+
+  <Tab title="Claude Code">
+    Run one command from your terminal.
+
+    **Remote (recommended):**
+
+    ```bash
+    claude mcp add directify -- npx -y mcp-remote \
+      https://mcp.directify.app/mcp \
+      --header "Authorization:Bearer YOUR_API_TOKEN" \
+      --header "X-Directory-ID:YOUR_DIRECTORY_ID"
+    ```
+
+    **Local:**
+
+    ```bash
+    claude mcp add directify \
+      --env DIRECTIFY_API_TOKEN=YOUR_API_TOKEN \
+      --env DIRECTIFY_DIRECTORY_ID=YOUR_DIRECTORY_ID \
+      -- npx -y directify-mcp
+    ```
+
+    Verify it's connected with `claude mcp list`.
+  </Tab>
+
+  <Tab title="Cursor">
+    Create or edit `.cursor/mcp.json` in your project (or `~/.cursor/mcp.json` for all projects).
+
+    **Remote (recommended):**
+
+    ```json
+    {
+      "mcpServers": {
+        "directify": {
+          "command": "npx",
+          "args": [
+            "-y", "mcp-remote",
+            "https://mcp.directify.app/mcp",
+            "--header", "Authorization:Bearer YOUR_API_TOKEN",
+            "--header", "X-Directory-ID:YOUR_DIRECTORY_ID"
+          ]
+        }
+      }
+    }
+    ```
+
+    **Local:**
+
+    ```json
+    {
+      "mcpServers": {
+        "directify": {
+          "command": "npx",
+          "args": ["-y", "directify-mcp"],
+          "env": {
+            "DIRECTIFY_API_TOKEN": "YOUR_API_TOKEN",
+            "DIRECTIFY_DIRECTORY_ID": "YOUR_DIRECTORY_ID"
+          }
+        }
+      }
+    }
+    ```
+
+    Then open **Cursor Settings → MCP** and confirm `directify` shows a green dot.
+  </Tab>
+
+  <Tab title="Other clients">
+    Any MCP-compatible client that supports remote servers can connect via the [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) bridge using the same pattern:
+
+    ```bash
+    npx -y mcp-remote https://mcp.directify.app/mcp \
+      --header "Authorization:Bearer YOUR_API_TOKEN" \
+      --header "X-Directory-ID:YOUR_DIRECTORY_ID"
+    ```
+
+    For clients that natively support remote MCP over OAuth (such as Claude.ai web connectors), add `https://mcp.directify.app/mcp` as the server URL and complete the sign-in prompt instead of passing a token header.
+  </Tab>
+</Tabs>
+
+<Note>
+The `X-Directory-ID` / `DIRECTIFY_DIRECTORY_ID` value is **optional**. Omit it to let the assistant work across all your directories — it'll ask which one to use, or you can call `list_directories`.
+</Note>
+
+## Step 4 — Try it out
+
+Restart your AI client, then ask:
+
+> *"List my Directify directories."*
+
+> *"Create a listing called 'Blue Bottle Coffee' in the Cafés category."*
+
+> *"What custom fields does this directory have? Add a filterable 'Price Range' select field with options $, $$, $$$."*
+
+> *"Create an organizer 'Acme Events' and link these three listings to it."*
+
+## What can it do?
+
+The MCP server exposes tools for every major part of your directory:
+
+| Area | Examples |
+|---|---|
+| **Directories** | list directories you own |
+| **Listings** | list, get, create, update, delete, bulk-create, check-exists, set custom field values, link organizers |
+| **Categories** | list, get, create, update, delete |
+| **Tags** | list, get, create, update, delete |
+| **Custom Fields** | list, get, create, update, delete field definitions |
+| **Organizers** | list, get, create, update, delete |
+| **Articles** | list, get, create, update, delete, toggle published |
+| **Custom Pages** | list, get, create, update, delete, toggle published |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="The server doesn't appear / shows as failed">
+    - Make sure you have **Node.js 18+** installed (`node --version`) — `npx` needs it.
+    - **Fully quit and reopen** Claude Desktop (closing the window isn't enough).
+    - Double-check the JSON is valid (no trailing commas, matched brackets).
+  </Accordion>
+  <Accordion title='"Authentication failed" or 401 errors'>
+    Your API token is missing, mistyped, or revoked. Generate a fresh one at **Settings → API** and update your config. The header format is exactly `Authorization:Bearer YOUR_API_TOKEN` (note the single space after `Bearer`).
+  </Accordion>
+  <Accordion title='"Access denied" or directory not found'>
+    The token must belong to the account that **owns** the directory, and the `X-Directory-ID` must be one of your directories. Ask the assistant to *"list my directories"* to see valid IDs.
+  </Accordion>
+  <Accordion title="Rate limited (429)">
+    The API allows **120 requests per minute** per directory. For large bulk jobs, ask the assistant to batch the work or slow down.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+Prefer the terminal or want to script things? Use the [Directify CLI](/ai-tools/cli) instead — same actions, no AI required.
+</Tip>

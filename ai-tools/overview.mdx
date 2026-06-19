@@ -1,0 +1,71 @@
+---
+title: "Manage Directify with AI & Automation"
+icon: "robot"
+description: "Connect Claude, Cursor, the command line, or an autonomous agent to your Directify directory. Create listings, manage categories, publish articles, and more — in plain English or from your terminal."
+---
+
+## Overview
+
+Beyond the dashboard, you can manage your Directify directory programmatically — including with AI assistants like **Claude**. There are three ways to connect, all built on the [Directify REST API](/api-integration/authentication):
+
+<CardGroup cols={3}>
+  <Card title="MCP Server" icon="plug" href="/ai-tools/mcp-server">
+    Connect Claude, Cursor, or any MCP-compatible AI assistant. Manage your directory in plain English.
+  </Card>
+  <Card title="CLI" icon="terminal" href="/ai-tools/cli">
+    The `directify` command-line tool. Great for scripts, automation, and power users.
+  </Card>
+  <Card title="Autonomous Agent" icon="robot" href="/ai-tools/agent">
+    A self-running agent that manages your directory on a schedule, built on OpenClaw.
+  </Card>
+</CardGroup>
+
+### Which one should I use?
+
+| You want to… | Use |
+|---|---|
+| Chat with Claude to create/edit listings, categories, custom fields, etc. | **[MCP Server](/ai-tools/mcp-server)** |
+| Run commands or scripts from your terminal / CI | **[CLI](/ai-tools/cli)** |
+| Have an agent that works autonomously (e.g. scrape & import on a schedule) | **[Autonomous Agent](/ai-tools/agent)** |
+| Call the API directly from your own code | **[REST API](/api-integration/authentication)** |
+
+## Video walkthrough
+
+We're putting together a step-by-step video on connecting the MCP server to Claude and managing your directory by chat.
+
+{/* TODO: When the video is published, replace VIDEO_ID below and delete this note + the "coming soon" callout. */}
+
+<Note>
+📹 **Video coming soon.** In the meantime, the [MCP Server guide](/ai-tools/mcp-server) has full step-by-step setup instructions. Subscribe on [YouTube](https://www.youtube.com/@venelinkochev) to catch it when it drops.
+</Note>
+
+{/*
+<Frame caption="Connecting the Directify MCP server to Claude">
+  <iframe
+    width="100%"
+    height="420"
+    src="https://www.youtube.com/embed/VIDEO_ID"
+    title="Connect the Directify MCP server to Claude"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+  ></iframe>
+</Frame>
+*/}
+
+## Before you start
+
+All three methods need the same two things:
+
+<Steps>
+  <Step title="An API token">
+    In your Directify dashboard, go to **Settings → API** and click the **Key icon** to generate a token. Copy it somewhere safe — you won't be able to see it again.
+
+    <Tip>Treat your API token like a password. Anyone with it can manage your directories. You can revoke and regenerate it any time from **Settings → API**.</Tip>
+  </Step>
+  <Step title="Your Directory ID">
+    The numeric ID of the directory you want to manage. Find it in the dashboard URL when viewing a directory (`/app/{directory_id}/...`), or ask the AI to *"list my Directify directories"* once connected.
+  </Step>
+</Steps>
+
+Requests are limited to **120 per minute** per directory — plenty for AI-driven workflows. See [Authentication](/api-integration/authentication) for details.

@@ -1,0 +1,88 @@
+---
+title: "Autonomous Directify Agent"
+icon: "robot"
+description: "Run a self-managing AI agent that maintains your Directify directory on a schedule — built on OpenClaw and the Directify API."
+---
+
+## What is the agent?
+
+The **Directify Agent** is a pre-configured [OpenClaw](https://openclaw.ai) agent that manages your directory autonomously. Unlike the [MCP server](/ai-tools/mcp-server) (which you chat with on demand), the agent can run on a schedule and perform recurring work — for example, importing scraped listings, tidying categories, or keeping content fresh — and remembers context between runs.
+
+<Note>
+This is an advanced, self-hosted setup for users comfortable with the command line. If you just want to manage your directory by chatting, start with the [MCP Server](/ai-tools/mcp-server) instead.
+</Note>
+
+## Prerequisites
+
+- [Node.js 18+](https://nodejs.org)
+- An [API token](/api-integration/authentication) (**Settings → API**) and your **Directory ID**
+- The Directify agent files (the `directify-agent` package)
+
+## Setup
+
+<Steps>
+  <Step title="Install OpenClaw">
+    ```bash
+    npm install -g openclaw
+    openclaw setup
+    ```
+  </Step>
+  <Step title="Create the agent workspace">
+    Copy the Directify agent files into a workspace folder and register it with OpenClaw:
+
+    ```bash
+    mkdir -p ~/clawd-directify
+    cp -r ./directify-agent/* ~/clawd-directify/
+
+    # First time only — copy the example gateway config
+    cp ~/clawd-directify/openclaw.example.json ~/.openclaw/openclaw.json
+    ```
+
+    If you already have an `~/.openclaw/openclaw.json`, add the agent to your existing `agents.list` instead:
+
+    ```json
+    {
+      "id": "directify",
+      "name": "Directify Agent",
+      "workspace": "~/clawd-directify"
+    }
+    ```
+  </Step>
+  <Step title="Configure your API credentials">
+    Edit `~/clawd-directify/TOOLS.md` and fill in your details:
+
+    ```markdown
+    - **Base URL:** `https://directify.app/api`
+    - **API Key:** `df_live_abc123...`
+    - **Directory ID:** `42`
+    ```
+  </Step>
+  <Step title="Personalize (optional)">
+    Edit `USER.md` with your name and directory so the agent's output matches your voice:
+
+    ```markdown
+    - **Name:** John
+    - **Directory:** Chicago Restaurants
+    - **URL:** https://chicagorestaurants.com
+    ```
+  </Step>
+  <Step title="Start the agent">
+    ```bash
+    openclaw gateway restart
+    ```
+
+    Then message your agent, e.g. *"Show me all my listings"*.
+  </Step>
+</Steps>
+
+## What it can do
+
+The agent has access to the same actions as the [API](/api-integration/authentication) and [MCP server](/ai-tools/mcp-server) — listings, categories, tags, custom fields, organizers, articles, and pages. Because it runs on a schedule and keeps memory, it's well suited to recurring jobs:
+
+- *"Every morning, check my source site and import any new listings."*
+- *"Keep all listings in the 'Old' category set to draft."*
+- *"Tag every published listing without a website URL as 'incomplete'."*
+
+<Tip>
+For one-off or interactive work, the [MCP server](/ai-tools/mcp-server) is simpler. Reach for the autonomous agent when you want hands-off, scheduled maintenance.
+</Tip>

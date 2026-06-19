@@ -1,0 +1,93 @@
+---
+title: "Directify CLI — Manage Your Directory from the Terminal"
+icon: "terminal"
+description: "Install and connect the directify command-line tool. Manage listings, categories, tags, custom fields, organizers, articles, and pages from your terminal or scripts."
+---
+
+## What is the CLI?
+
+`directify` is the official command-line tool. It wraps the [Directify REST API](/api-integration/authentication) so you can manage your directory from your terminal, shell scripts, or CI pipelines — no AI required. It's ideal for power users and automation.
+
+## Install
+
+Requires [Node.js 18+](https://nodejs.org).
+
+```bash
+npm install -g directify-cli
+```
+
+Or run it without installing, using `npx`:
+
+```bash
+npx directify-cli --help
+```
+
+## Connect
+
+<Steps>
+  <Step title="Get your API token">
+    In your Directify dashboard, go to **Settings → API** and click the **Key icon** to generate a token.
+  </Step>
+  <Step title="Authenticate">
+    ```bash
+    directify auth login YOUR_API_TOKEN
+    ```
+    Your token is stored locally so you only do this once.
+  </Step>
+  <Step title="Set a default directory">
+    ```bash
+    # Find your directory IDs
+    directify directories list
+
+    # Set the default so you don't pass --directory every time
+    directify config set-directory 123
+    ```
+  </Step>
+</Steps>
+
+## Start managing
+
+```bash
+# Listings
+directify listings list
+directify listings create --name "Bella Trattoria" --description "Authentic Italian cuisine" --categories 1,5 --organizers 8
+
+# Categories & tags
+directify categories create --title "Italian" --icon "🍝"
+directify tags create --title "Featured"
+
+# Custom fields
+directify fields create --label "Price Range" --type select --options "$,$$,$$$" --filterable
+directify fields list
+
+# Articles & pages
+directify articles list
+directify pages create --title "About Us" --placement navbar
+```
+
+Every command supports `--help`, and most accept `-d, --directory <id>` to target a specific directory (overriding the default) and `--json` for machine-readable output.
+
+<Tip>
+The CLI mirrors the API one-to-one. If a command errors with a validation message, it's coming straight from the API — see [Authentication → Error Responses](/api-integration/authentication) for what each status code means.
+</Tip>
+
+## Common command groups
+
+| Group | Commands |
+|---|---|
+| `auth` | `login`, `logout`, `status` |
+| `config` | `set-directory`, `get-directory` |
+| `directories` | `list` |
+| `listings` | `list`, `get`, `create`, `update`, `delete`, `exists`, `bulk-create` |
+| `categories` | `list`, `get`, `create`, `update`, `delete` |
+| `tags` | `list`, `get`, `create`, `update`, `delete` |
+| `fields` | `list`, `get`, `create`, `update`, `delete` |
+| `organizers` | `list`, `get`, `create`, `update`, `delete` |
+| `articles` | `list`, `get`, `create`, `update`, `delete`, `toggle` |
+| `pages` | `list`, `get`, `create`, `update`, `delete`, `toggle` |
+
+Run `directify --help` (or `directify <group> --help`) to see every command and option.
+
+<Note>
+Want to manage your directory by chatting with an AI assistant instead? See the [MCP Server guide](/ai-tools/mcp-server).
+</Note>
