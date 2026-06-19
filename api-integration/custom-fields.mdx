@@ -84,6 +84,115 @@ GET /api/directories/{directory_id}/custom-fields
 }
 ```
 
+### Get Single Custom Field
+
+Retrieve a specific custom field by ID.
+
+```http
+GET /api/directories/{directory_id}/custom-fields/{custom_field_id}
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+- `custom_field_id` (integer, required): The ID of the custom field
+
+### Create Custom Field
+
+Create a new custom field definition in the directory.
+
+```http
+POST /api/directories/{directory_id}/custom-fields
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+
+**Request Body:**
+
+```json
+{
+  "label": "Price Range",
+  "type": "select",
+  "options": ["$", "$$", "$$$"],
+  "fieldable_type": "listing",
+  "placeholder": "Select a price range",
+  "description": "Typical cost per person",
+  "default_value": null,
+  "value_prefix": "",
+  "value_suffix": "",
+  "is_required": false,
+  "is_visible": true,
+  "show_on_card": true,
+  "show_on_public_submission": true,
+  "filterable": true,
+  "order": 3
+}
+```
+
+**Available fields:**
+
+| Field | Type | Description |
+|---|---|---|
+| `label` | string, required | Human-readable field label shown to users |
+| `type` | string, required | Field type (see [Custom Field Types](#custom-field-types)) |
+| `name` | string | Machine key used when setting values on listings. Auto-derived from `label` (lowercased, snake_cased) if omitted — e.g. `"Price Range"` → `price_range` |
+| `fieldable_type` | string | What the field attaches to: `listing` (default), `organizer`, or `article` |
+| `placeholder` | string | Input placeholder text |
+| `description` | string | Help text shown under the field |
+| `default_value` | string | Default value |
+| `value_prefix` | string | Prefix shown before the value (e.g. `$`) |
+| `value_suffix` | string | Suffix shown after the value (e.g. `/mo`) |
+| `options` | array | Choices for `select`, `multi_select`, and `list` types |
+| `is_required` | boolean | Whether the field is required |
+| `is_visible` | boolean | Whether the field shows on the listing page (default: true) |
+| `show_on_card` | boolean | Show the value on listing cards |
+| `show_on_public_submission` | boolean | Show the field on the public submission form |
+| `show_label` | boolean | Show the label on the listing page |
+| `show_label_on_card` | boolean | Show the label on cards |
+| `filterable` | boolean | Allow filtering listings by this field |
+| `placement` | string | Where the field renders on the listing page |
+| `placement_on_card` | string | Where the value renders on the card |
+| `icon` / `heroicon` | string | Field icon |
+| `order` | integer | Sort order among fields |
+
+<Note>
+After creating a field, set its value on a listing by passing the field's `name` as a flat key in the listing's create/update body — e.g. `{ "name": "My Tool", "price_range": "$$" }`. See [Listings → Create Listing](/api-integration/projects#create-listing).
+</Note>
+
+### Update Custom Field
+
+Update an existing custom field definition. Only include the fields you want to change.
+
+```http
+PUT /api/directories/{directory_id}/custom-fields/{custom_field_id}
+```
+
+**Request Body:**
+
+```json
+{
+  "label": "Pricing Tier",
+  "is_required": true,
+  "options": ["Free", "Pro", "Enterprise"]
+}
+```
+
+### Delete Custom Field
+
+Delete a custom field definition. This also removes the field's stored values from all listings.
+
+```http
+DELETE /api/directories/{directory_id}/custom-fields/{custom_field_id}
+```
+
+**Response:**
+
+```json
+{
+  "message": "Custom field deleted successfully"
+}
+```
+
 ## Custom Field Types
 
 The API supports various custom field types:
@@ -99,4 +208,9 @@ The API supports various custom field types:
 - `textarea` - Multi-line text area
 - `checkbox` - Boolean toggle
 - `rating` - Rating input (0-5)
-- `select` - Dropdown with predefined options 
+- `select` - Dropdown with predefined options
+- `list` - Repeatable list of values
+- `multi_select` - Multiple-choice select (stored comma-separated)
+- `button` - Button/CTA field
+- `javascript` - Custom JavaScript
+- `html` - Custom HTML

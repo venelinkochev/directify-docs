@@ -29,6 +29,7 @@ const listing = await api.post('/directories/1/projects', {
   description: 'A great tool',
   categories: [1, 2],
   tags: [1],
+  organizers: [5],
   pricing: 'Free'
 });
 ```
@@ -59,6 +60,7 @@ $listing = Http::withHeaders([
     'description' => 'A great tool',
     'categories' => [1, 2],
     'tags' => [1],
+    'organizers' => [5],
     'pricing' => 'Free'
 ])->json();
 ```
@@ -86,6 +88,7 @@ listing_data = {
     'description': 'A great tool',
     'categories': [1, 2],
     'tags': [1],
+    'organizers': [5],
     'pricing': 'Free'
 }
 

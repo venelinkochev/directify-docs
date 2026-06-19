@@ -12,6 +12,10 @@ Organizers represent entities such as agencies, studios, or event organizers ass
   The organizers feature must be enabled in your directory settings before organizer pages become publicly visible. You can still manage organizers via the API regardless of this setting.
 </Note>
 
+<Note>
+  **Linking organizers to listings** is done from the listing side, not here. Pass an `organizers` array of organizer IDs when creating or updating a listing — see [Create Listing](/api-integration/projects#create-listing) and [Update Listing](/api-integration/projects#update-listing). The organizer endpoints below manage the organizer records themselves.
+</Note>
+
 ### Get Directory Organizers
 
 Retrieve all organizers for a specific directory, including their associated listings.

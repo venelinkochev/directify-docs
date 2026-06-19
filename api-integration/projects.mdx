@@ -66,6 +66,9 @@ GET /api/directories/{directory_id}/projects
           "is_active": true
         }
       ],
+      "organizers": [
+        { "id": 5, "name": "Acme Events", "slug": "acme-events" }
+      ],
       "is_active": true,
       "is_featured": false,
       "is_no_follow": false,
@@ -157,6 +160,9 @@ GET /api/directories/{directory_id}/projects/{project_id}
         "is_active": true
       }
     ],
+    "organizers": [
+      { "id": 5, "name": "Acme Events", "slug": "acme-events" }
+    ],
     "is_active": true,
     "is_featured": false,
     "is_no_follow": false,
@@ -242,6 +248,7 @@ POST /api/directories/{directory_id}/projects
   "category_id": 1,
   "categories": [1, 2],
   "tags": [1, 3],
+  "organizers": [5, 8],
   "image_url": "https://example.com/cover.jpg",
   "logo_url": "https://example.com/logo.png",
   "additional_image_urls": [
@@ -257,6 +264,10 @@ POST /api/directories/{directory_id}/projects
   "job_type": "Full-time"
 }
 ```
+
+<Note>
+**Linking organizers:** Pass `organizers` as an array of organizer IDs to associate the listing with one or more [organizers](/api-integration/organizers) (agencies, studios, event hosts, etc.). Only organizers belonging to the same directory are linked — any IDs from another directory are silently ignored. Fetch available IDs with `GET /api/directories/{directory_id}/organizers`.
+</Note>
 
 **Response:**
 
@@ -316,6 +327,10 @@ POST /api/directories/{directory_id}/projects
         "is_active": true
       }
     ],
+    "organizers": [
+      { "id": 5, "name": "Acme Events", "slug": "acme-events" },
+      { "id": 8, "name": "Downtown Collective", "slug": "downtown-collective" }
+    ],
     "is_active": true,
     "is_featured": false,
     "is_no_follow": false,
@@ -357,6 +372,7 @@ POST /api/directories/{directory_id}/projects/bulk
       "url": "https://example1.com",
       "categories": [1, 2],
       "tags": [1],
+      "organizers": [5],
       "is_active": true
     },
     {
@@ -395,6 +411,7 @@ POST /api/directories/{directory_id}/projects/bulk
 | `category_id` | integer | Single category ID |
 | `categories` | array | Array of category IDs |
 | `tags` | array | Array of tag IDs |
+| `organizers` | array | Array of organizer IDs to link (must belong to the same directory; out-of-directory IDs are ignored) |
 | `is_active` | boolean | Published status (default: true) |
 | `is_featured` | boolean | Featured flag |
 | `is_no_follow` | boolean | NoFollow flag |
@@ -513,6 +530,7 @@ PUT /api/directories/{directory_id}/projects/{project_id}
   },
   "categories": [1],
   "tags": [1],
+  "organizers": [5],
   "seo_title": "Updated Example Tool - Now Even Better",
   "seo_description": "The updated leading tool for developers.",
   "is_active": true,
@@ -566,6 +584,9 @@ PUT /api/directories/{directory_id}/projects/{project_id}
         "is_active": true
       }
     ],
+    "organizers": [
+      { "id": 5, "name": "Acme Events", "slug": "acme-events" }
+    ],
     "is_active": true,
     "is_featured": true,
     "is_no_follow": false,
@@ -585,7 +606,7 @@ PUT /api/directories/{directory_id}/projects/{project_id}
 ```
 
 <Note>
-**Partial updates:** When updating a listing, you only need to send the fields you want to change. Fields that are omitted from the request body will remain unchanged. Importantly, if you omit `categories` and `tags` from a PUT request, the existing category and tag assignments will be preserved. To explicitly clear them, send empty arrays: `"categories": []` or `"tags": []`.
+**Partial updates:** When updating a listing, you only need to send the fields you want to change. Fields that are omitted from the request body will remain unchanged. Importantly, if you omit `categories`, `tags`, or `organizers` from a PUT request, the existing assignments will be preserved. To explicitly clear them, send empty arrays: `"categories": []`, `"tags": []`, or `"organizers": []`.
 </Note>
 
 ### Delete Listing
