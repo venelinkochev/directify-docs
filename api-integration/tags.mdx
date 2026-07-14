@@ -31,6 +31,7 @@ GET /api/directories/{directory_id}/tags
       "is_active": true,
       "icon": null,
       "heroicon": "code-bracket",
+      "color": "#EF4444",
       "text_color": "#FFFFFF",
       "show_title": true,
       "show_icon": true,
@@ -44,6 +45,7 @@ GET /api/directories/{directory_id}/tags
       "is_active": true,
       "icon": null,
       "heroicon": "currency-dollar",
+      "color": "#ECFDF5",
       "text_color": "#10B981",
       "show_title": true,
       "show_icon": true,
@@ -77,6 +79,7 @@ GET /api/directories/{directory_id}/tags/{tag_id}
     "is_active": true,
     "icon": null,
     "heroicon": "code-bracket",
+    "color": "#EF4444",
     "text_color": "#FFFFFF",
     "show_title": true,
     "show_icon": true,
@@ -105,6 +108,7 @@ POST /api/directories/{directory_id}/tags
   "slug": "new-release",
   "is_active": true,
   "heroicon": "sparkles",
+  "color": "#FEF3C7",
   "text_color": "#F59E0B",
   "show_title": true,
   "show_icon": true
@@ -117,6 +121,7 @@ POST /api/directories/{directory_id}/tags
 - `is_active` (boolean, optional): Whether the tag is active (default: true)
 - `icon` (string, optional): Custom uploaded icon path (max 255 characters)
 - `heroicon` (string, optional): Heroicon name to use as the tag icon (max 255 characters). Takes priority over `icon` when both are set
+- `color` (string, optional): Background color for the tag (max 255 characters, e.g. "#F59E0B")
 - `text_color` (string, optional): Text/accent color for the tag display (max 255 characters, e.g. "#FF0000")
 - `show_title` (boolean, optional): Whether to display the tag title (default: true)
 - `show_icon` (boolean, optional): Whether to display the tag icon (default: true)
@@ -132,6 +137,7 @@ POST /api/directories/{directory_id}/tags
     "is_active": true,
     "icon": null,
     "heroicon": "sparkles",
+    "color": "#FEF3C7",
     "text_color": "#F59E0B",
     "show_title": true,
     "show_icon": true,
@@ -158,6 +164,7 @@ PUT /api/directories/{directory_id}/tags/{tag_id}
 ```json
 {
   "title": "Recently Updated",
+  "color": "#EFF6FF",
   "text_color": "#3B82F6",
   "heroicon": "arrow-path"
 }
@@ -169,6 +176,7 @@ PUT /api/directories/{directory_id}/tags/{tag_id}
 - `is_active` (boolean, optional): Whether the tag is active
 - `icon` (string, optional): Custom uploaded icon path (max 255 characters)
 - `heroicon` (string, optional): Heroicon name to use as the tag icon (max 255 characters)
+- `color` (string, optional): Background color for the tag (max 255 characters)
 - `text_color` (string, optional): Text/accent color for the tag display (max 255 characters)
 - `show_title` (boolean, optional): Whether to display the tag title
 - `show_icon` (boolean, optional): Whether to display the tag icon
@@ -184,6 +192,7 @@ PUT /api/directories/{directory_id}/tags/{tag_id}
     "is_active": true,
     "icon": null,
     "heroicon": "arrow-path",
+    "color": "#EFF6FF",
     "text_color": "#3B82F6",
     "show_title": true,
     "show_icon": true,
@@ -225,6 +234,6 @@ DELETE /api/directories/{directory_id}/tags/{tag_id}
 - Use `show_icon` to control icon visibility
 
 ### Display Customization
-- `text_color` sets the accent color for the tag (useful for color-coded labels)
+- `color` sets the tag's background color and `text_color` its text/accent color — pair them for color-coded labels
 - `show_title` and `show_icon` control which parts of the tag are visible
 - Combine these options to create icon-only tags, text-only tags, or full tags with both

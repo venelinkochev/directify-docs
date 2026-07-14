@@ -51,8 +51,7 @@ GET /api/directories/{directory_id}/articles
         "twitter_title": "Getting Started with React - Complete Tutorial",
         "twitter_description": "Learn React from scratch with this comprehensive tutorial covering components, hooks, and best practices.",
         "twitter_image": "https://example.com/images/react-tutorial-twitter.jpg",
-        "canonical_url": "https://your-directify-domain.com/blog/getting-started-with-react/",
-        "robots": "index, follow",
+        "canonical": "https://your-directify-domain.com/blog/getting-started-with-react/",
         "created_at": "2024-01-15T10:30:00.000000Z",
         "updated_at": "2024-01-15T10:30:00.000000Z"
       },
@@ -133,8 +132,7 @@ GET /api/directories/{directory_id}/articles/{article_id}
       "twitter_title": "Getting Started with React - Complete Tutorial",
       "twitter_description": "Learn React from scratch with this comprehensive tutorial covering components, hooks, and best practices.",
       "twitter_image": "https://example.com/images/react-tutorial-twitter.jpg",
-      "canonical_url": "https://your-directify-domain.com/blog/getting-started-with-react/",
-      "robots": "index, follow",
+      "canonical": "https://your-directify-domain.com/blog/getting-started-with-react/",
       "created_at": "2024-01-15T10:30:00.000000Z",
       "updated_at": "2024-01-15T10:30:00.000000Z"
     },
@@ -232,8 +230,7 @@ POST /api/directories/{directory_id}/articles
     "twitter_title": "Advanced React Patterns - Complete Guide",
     "twitter_description": "Master advanced React patterns including render props, higher-order components, and custom hooks.",
     "twitter_image": "https://example.com/images/advanced-react-twitter.jpg",
-    "canonical_url": "https://your-directify-domain.com/blog/advanced-react-patterns/",
-    "robots": "index, follow"
+    "canonical": "https://your-directify-domain.com/blog/advanced-react-patterns/"
   }
 }
 ```
@@ -258,8 +255,7 @@ POST /api/directories/{directory_id}/articles
   - `twitter_title` (string, optional): Twitter card title (max 255 characters)
   - `twitter_description` (string, optional): Twitter card description (max 500 characters)
   - `twitter_image` (string, optional): Twitter card image URL (max 255 characters)
-  - `canonical_url` (string, optional): Canonical URL (max 255 characters)
-  - `robots` (string, optional): Robots meta tag value (max 255 characters)
+  - `canonical` (string, optional): Canonical URL (max 255 characters). Leave empty to use the article's own URL
 
 **Response:**
 
@@ -289,8 +285,7 @@ POST /api/directories/{directory_id}/articles
       "twitter_title": "Advanced React Patterns - Complete Guide",
       "twitter_description": "Master advanced React patterns including render props, higher-order components, and custom hooks.",
       "twitter_image": "https://example.com/images/advanced-react-twitter.jpg",
-      "canonical_url": "https://your-directify-domain.com/blog/advanced-react-patterns/",
-      "robots": "index, follow",
+      "canonical": "https://your-directify-domain.com/blog/advanced-react-patterns/",
       "created_at": "2024-01-20T14:00:00.000000Z",
       "updated_at": "2024-01-20T14:00:00.000000Z"
     },
@@ -365,8 +360,7 @@ PUT /api/directories/{directory_id}/articles/{article_id}
   - `twitter_title` (string, optional): Twitter card title (max 255 characters)
   - `twitter_description` (string, optional): Twitter card description (max 500 characters)
   - `twitter_image` (string, optional): Twitter card image URL (max 255 characters)
-  - `canonical_url` (string, optional): Canonical URL (max 255 characters)
-  - `robots` (string, optional): Robots meta tag value (max 255 characters)
+  - `canonical` (string, optional): Canonical URL (max 255 characters). Leave empty to use the article's own URL
 
 **Response:**
 
@@ -396,8 +390,7 @@ PUT /api/directories/{directory_id}/articles/{article_id}
       "twitter_title": "Advanced React Patterns - Complete Guide",
       "twitter_description": "Master advanced React patterns including render props, higher-order components, and custom hooks.",
       "twitter_image": "https://example.com/images/advanced-react-twitter.jpg",
-      "canonical_url": "https://your-directify-domain.com/blog/advanced-react-patterns/",
-      "robots": "index, follow",
+      "canonical": "https://your-directify-domain.com/blog/advanced-react-patterns/",
       "created_at": "2024-01-20T14:00:00.000000Z",
       "updated_at": "2024-01-20T15:30:00.000000Z"
     },
@@ -463,8 +456,7 @@ PATCH /api/directories/{directory_id}/articles/{article_id}/toggle
       "twitter_title": "Advanced React Patterns - Complete Guide",
       "twitter_description": "Master advanced React patterns including render props, higher-order components, and custom hooks.",
       "twitter_image": "https://example.com/images/advanced-react-twitter.jpg",
-      "canonical_url": "https://your-directify-domain.com/blog/advanced-react-patterns/",
-      "robots": "index, follow",
+      "canonical": "https://your-directify-domain.com/blog/advanced-react-patterns/",
       "created_at": "2024-01-20T14:00:00.000000Z",
       "updated_at": "2024-01-20T15:30:00.000000Z"
     },
@@ -534,8 +526,7 @@ GET /api/directories/{directory_id}/articles/category/{category}
         "twitter_title": "Getting Started with React - Complete Tutorial",
         "twitter_description": "Learn React from scratch with this comprehensive tutorial covering components, hooks, and best practices.",
         "twitter_image": "https://example.com/images/react-tutorial-twitter.jpg",
-        "canonical_url": "https://your-directify-domain.com/blog/getting-started-with-react/",
-        "robots": "index, follow",
+        "canonical": "https://your-directify-domain.com/blog/getting-started-with-react/",
         "created_at": "2024-01-15T10:30:00.000000Z",
         "updated_at": "2024-01-15T10:30:00.000000Z"
       },
@@ -613,7 +604,7 @@ DELETE /api/directories/{directory_id}/articles/{article_id}
 ### SEO Integration
 - Full SEO metadata support including Open Graph and Twitter cards
 - SEO data is automatically created/updated with articles
-- Canonical URLs and robots meta tags supported
+- Canonical URLs supported via `seo.canonical` (leave empty to use the article's own URL)
 - SEO data is optional but recommended for better search visibility
 
 ### Category Management

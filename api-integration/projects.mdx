@@ -255,11 +255,16 @@ POST /api/directories/{directory_id}/projects
     "https://example.com/gallery1.jpg",
     "https://example.com/gallery2.jpg"
   ],
+  "video_url": "https://youtube.com/embed/abc123",
+  "video_thumbnail_url": "https://example.com/video-thumb.jpg",
+  "starts_at": "2026-08-01 09:00:00",
+  "ends_at": "2026-09-01 09:00:00",
   "seo_title": "Example Tool - Best Developer Tool",
   "seo_description": "The leading tool for developers worldwide.",
   "head_html": "<link rel=\"alternate\" hreflang=\"es\" href=\"https://es.example.com/listings/example-tool\">",
   "is_active": true,
   "is_featured": false,
+  "is_no_follow": false,
   "pricing": "Free",
   "job_type": "Full-time"
 }
@@ -267,6 +272,10 @@ POST /api/directories/{directory_id}/projects
 
 <Note>
 **Linking organizers:** Pass `organizers` as an array of organizer IDs to associate the listing with one or more [organizers](/api-integration/organizers) (agencies, studios, event hosts, etc.). Only organizers belonging to the same directory are linked — any IDs from another directory are silently ignored. Fetch available IDs with `GET /api/directories/{directory_id}/organizers`.
+</Note>
+
+<Note>
+**Expiring listings:** `starts_at` and `ends_at` control when a listing is visible. A listing with a `starts_at` in the future stays hidden until that moment, and once `ends_at` passes it is either badged as expired or hidden entirely — depending on the directory's [expiring listings setting](/listings/add-listing#expiring-listings). Both are optional; omit them and the listing is live immediately and never expires. Accepts any date format PHP can parse, e.g. `2026-08-01 09:00:00` or `2026-08-01T09:00:00Z`.
 </Note>
 
 **Response:**
@@ -423,6 +432,8 @@ POST /api/directories/{directory_id}/projects/bulk
 | `video_url` | string | Video URL |
 | `video_thumbnail_url` | string | Video thumbnail URL |
 | `votes` | integer | Vote count |
+| `starts_at` | datetime | When the listing goes live. Hidden until then; omit to publish immediately |
+| `ends_at` | datetime | When the listing expires. Badged as expired or hidden afterwards (per directory setting); omit for no expiry |
 | `seo_title` | string | SEO meta title |
 | `seo_description` | string | SEO meta description |
 | `schema` | string | JSON-LD schema markup |
@@ -531,6 +542,8 @@ PUT /api/directories/{directory_id}/projects/{project_id}
   "categories": [1],
   "tags": [1],
   "organizers": [5],
+  "starts_at": "2026-08-01 09:00:00",
+  "ends_at": "2026-09-01 09:00:00",
   "seo_title": "Updated Example Tool - Now Even Better",
   "seo_description": "The updated leading tool for developers.",
   "is_active": true,
@@ -538,6 +551,10 @@ PUT /api/directories/{directory_id}/projects/{project_id}
   "pricing": "Free - $50/month"
 }
 ```
+
+<Note>
+Pass `ends_at: null` to remove an expiry date and make a listing permanent again.
+</Note>
 
 **Response:**
 

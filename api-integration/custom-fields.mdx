@@ -149,11 +149,15 @@ POST /api/directories/{directory_id}/custom-fields
 | `show_on_public_submission` | boolean | Show the field on the public submission form |
 | `show_label` | boolean | Show the label on the listing page |
 | `show_label_on_card` | boolean | Show the label on cards |
+| `show_icon` | boolean | Show the field's icon on the listing page |
+| `show_icon_on_card` | boolean | Show the field's icon on cards |
 | `filterable` | boolean | Allow filtering listings by this field |
-| `placement` | string | Where the field renders on the listing page |
-| `placement_on_card` | string | Where the value renders on the card |
-| `icon` / `heroicon` | string | Field icon |
+| `placement` | string | Where the field renders on the listing page: `after_tags`, `after_categories`, `before_content`, or `after_content` |
+| `placement_on_card` | string | Where the value renders on the card: `after_title`, `before_categories`, `after_categories`, `before_buttons`, or `after_buttons` |
+| `icon` / `heroicon` | string | Field icon — an emoji or image URL (`icon`), or a Heroicon name such as `heroicon-o-currency-dollar` (`heroicon`) |
 | `order` | integer | Sort order among fields |
+| `validation_rules` | array | Extra [Laravel validation rules](https://laravel.com/docs/validation#available-validation-rules) applied to the value, e.g. `["min:3", "max:80"]` |
+| `settings` | object | Extra per-type settings |
 
 <Note>
 After creating a field, set its value on a listing by passing the field's `name` as a flat key in the listing's create/update body — e.g. `{ "name": "My Tool", "price_range": "$$" }`. See [Listings → Create Listing](/api-integration/projects#create-listing).

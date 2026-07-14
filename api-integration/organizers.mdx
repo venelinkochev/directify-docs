@@ -144,8 +144,10 @@ POST /api/directories/{directory_id}/organizers
 - `slug` (string, optional): URL-safe slug (lowercase letters, numbers, hyphens only). Auto-generated from name if not provided
 - `description` (string, optional): A short description (1-2 sentences) shown on cards and in the profile header
 - `content` (string, optional): Long-form content (markdown supported) rendered as styled prose on the profile page
-- `logo` (string, optional): Path to the logo image (max 255 characters)
-- `cover_image` (string, optional): Path to the cover image (max 255 characters)
+- `logo` (string, optional): Path to an already-uploaded logo image (max 255 characters)
+- `logo_url` (string, optional): URL of an externally hosted logo image (max 255 characters). Use this instead of `logo` to set a logo by URL
+- `cover_image` (string, optional): Path to an already-uploaded cover image (max 255 characters)
+- `cover_image_url` (string, optional): URL of an externally hosted cover image (max 255 characters). Use this instead of `cover_image` to set a cover by URL
 - `email` (string, optional): Contact email address
 - `phone` (string, optional): Contact phone number (max 255 characters)
 - `address` (string, optional): Physical address (max 255 characters)
@@ -214,8 +216,10 @@ PUT /api/directories/{directory_id}/organizers/{organizer_id}
 - `slug` (string, optional): URL-safe slug (lowercase letters, numbers, hyphens only)
 - `description` (string, optional): A short description (1-2 sentences) shown on cards and in the profile header
 - `content` (string, optional): Long-form content (markdown supported) rendered as styled prose on the profile page
-- `logo` (string, optional): Path to the logo image (max 255 characters)
-- `cover_image` (string, optional): Path to the cover image (max 255 characters)
+- `logo` (string, optional): Path to an already-uploaded logo image (max 255 characters)
+- `logo_url` (string, optional): URL of an externally hosted logo image (max 255 characters). Use this instead of `logo` to set a logo by URL
+- `cover_image` (string, optional): Path to an already-uploaded cover image (max 255 characters)
+- `cover_image_url` (string, optional): URL of an externally hosted cover image (max 255 characters). Use this instead of `cover_image` to set a cover by URL
 - `email` (string, optional): Contact email address
 - `phone` (string, optional): Contact phone number (max 255 characters)
 - `address` (string, optional): Physical address (max 255 characters)

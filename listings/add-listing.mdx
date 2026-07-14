@@ -50,6 +50,26 @@ Your online directory listings are powerful tools for showcasing businesses, res
 - **Featured** - Priority placement for premium listings in your directory website
 - **No Follow** - Advanced SEO control for external link management
 
+### Expiring Listings
+
+Every listing can be given an optional **start date** and **expiry date** on its edit page. Use them for time-limited entries — a paid placement, a job opening, an event, or a seasonal offer.
+
+- **Start date** - The listing stays hidden until this moment, then appears automatically. Leave it empty to publish immediately.
+- **Expiry date** - What happens once this moment passes depends on your directory's setting. Leave it empty and the listing never expires.
+
+Choose the expiry behaviour under **Settings → General → Listing Expiry Settings**:
+
+- **Keep it visible with an Expired badge** *(default)* - The listing stays in your directory with an "Expired" badge and is sorted last. You can customise the badge text.
+- **Hide it from the directory** - The listing is removed from listing pages, search and the sitemap.
+
+Either way the listing's own page stays reachable via a direct link, so existing inbound links and bookmarks don't break.
+
+<Tip>
+  Turn on **Show Expiry Countdown** in the same settings section to display a "3 days left" badge on listings approaching their expiry date — a useful nudge when you're selling renewals.
+</Tip>
+
+Both dates can also be set through the [API](/api-integration/projects), the [CLI](/ai-tools/cli) and the [MCP server](/ai-tools/mcp-server) via the `starts_at` and `ends_at` fields.
+
 <Frame>
   <img src="/images/listing-demo.png" alt="Adding a new listing" />
 </Frame>

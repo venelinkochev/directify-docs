@@ -52,6 +52,9 @@ npx directify-cli --help
 directify listings list
 directify listings create --name "Bella Trattoria" --description "Authentic Italian cuisine" --categories 1,5 --organizers 8
 
+# Time-limited listings (hidden until --starts-at, expires at --ends-at)
+directify listings update 456 --starts-at "2026-08-01 09:00:00" --ends-at "2026-09-01 09:00:00"
+
 # Categories & tags
 directify categories create --title "Italian" --icon "🍝"
 directify tags create --title "Featured"
