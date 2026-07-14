@@ -428,7 +428,7 @@ POST /api/directories/{directory_id}/projects/bulk
 | `image_url` | string | Cover image URL |
 | `logo_alt_text` | string | Logo alt text |
 | `image_alt_text` | string | Cover image alt text |
-| `additional_image_urls` | array | Array of gallery image URLs |
+| `additional_image_urls` | array | Gallery images hosted elsewhere, as an array of URLs. **This is the writable one** |
 | `video_url` | string | Video URL |
 | `video_thumbnail_url` | string | Video thumbnail URL |
 | `votes` | integer | Vote count |
@@ -440,6 +440,15 @@ POST /api/directories/{directory_id}/projects/bulk
 | `head_html` | string | Custom HTML for the page `<head>` section (e.g. hreflang tags) |
 
 Custom field values can also be passed by using the custom field name as the key (e.g., `"pricing": "Free"`, `"founded_year": "2020"`).
+
+<Warning>
+**`additional_image_urls` vs `additional_images_urls`** — these differ by a single letter and are not the same thing:
+
+- **`additional_image_urls`** (image, singular) is the **writable** field. Send gallery images hosted elsewhere as an array of URLs.
+- **`additional_images_urls`** (images, plural) is **read-only**, and appears in responses only. It is the listing's **complete** gallery: images uploaded through the dashboard (returned as CDN URLs) followed by everything in `additional_image_urls`.
+
+Read `additional_images_urls` when you want to render the gallery. Write `additional_image_urls` when you want to change it. Sending `additional_images_urls` does nothing.
+</Warning>
 
 <Note>
 When a `url` is provided, the API uses it for duplicate detection. If a listing with the same URL already exists in the directory, it will be returned as-is instead of creating a duplicate.
