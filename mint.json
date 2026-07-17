@@ -85,6 +85,7 @@
         "integrations/screenshotone",
         "integrations/converthub",
         "integrations/openai",
+        "integrations/claude",
         "integrations/google-sheets",
         "integrations/webhooks",
         "integrations/google-chrome-extension",
