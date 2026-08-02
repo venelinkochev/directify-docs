@@ -67,6 +67,7 @@
       "pages": [
         "listings/add-listing",
         "listings/import-export",
+        "listings/google-maps-import",
         "listings/custom-fields",
         "listings/related-articles",
         "listings/tags"
