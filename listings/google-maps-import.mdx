@@ -2,53 +2,54 @@
 title: 'Import Listings from Google Maps'
 sidebarTitle: 'Google Maps Import'
 icon: 'map-location-dot'
-description: 'Fill your directory with real businesses from Google Maps — search a niche and a city, preview the results, and import them as listings with addresses, phones, websites, opening hours and optionally Google reviews.'
+description: 'Fill your directory with real businesses from Google Maps — search a niche and a city, preview the results, and import them as listings with addresses, phones, websites, opening hours and their Google reviews. No technical setup needed.'
 ---
 
-Google Maps Import lets you populate your directory with real businesses in minutes. Search for something like **"plumbers in Austin, TX"**, and Google returns up to 60 real businesses with their name, address, phone number, website, opening hours and map coordinates. Select the ones you want and import them as listings — then invite those businesses to claim their listing.
+Google Maps Import lets you populate your directory with real businesses in minutes. Search for something like **"plumbers in Austin, TX"**, browse the results, and import the ones you want as listings — with their name, address, phone number, website, opening hours, map coordinates and, optionally, their Google reviews. Then invite those businesses to claim their listing.
 
-You bring your own Google API key and Google bills your account directly for what you use. Google's free monthly tier comfortably covers typical imports (roughly 15–20 searches-plus-imports per month at no cost).
+There are two ways to use it:
+
+- **Import credits (recommended)** — zero setup: just buy a credit pack and start importing. Directify handles the data fetching for you
+- **Your own Google API key (advanced)** — free and unlimited, but you need to create an API key in the Google Cloud Console
 
 <Note>
-Google Maps Import is available on the **Pro plan and above**.
+Google Maps Import is available on **all paid plans**.
 </Note>
 
-## Step 1: Create a Google API key
+## Importing with credits (no setup)
 
-This is the only technical part, and you only do it once. The key lives in your own Google account, so your searches and imports never share quota with anyone else.
+Go to **Content → Google Maps Import** in your directory panel, type a niche plus a location — e.g. `coffee shops in Portland, OR` — and hit Search. Use the format **"niche in location"**; any language works.
 
-1. Go to the [Google Cloud Console](https://console.cloud.google.com/) and sign in with any Google account
-2. Create a project (top bar → project dropdown → **New project**) — name it anything, e.g. "My Directory"
-3. Enable the Places API: open [Places API (New)](https://console.cloud.google.com/apis/library/places.googleapis.com) and click **Enable**. Make sure it's the one called **"Places API (New)"** — Google also lists an older "Places API" that won't work
-4. Set up billing if the console asks for it (**Billing** in the left menu). A card is required by Google even for free-tier usage — you won't be charged within the free monthly allowance
-5. Create the key: go to [Credentials](https://console.cloud.google.com/apis/credentials) → **Create credentials** → **API key**. Copy the key (it starts with `AIza`)
+Browse the results, tick the businesses you want (use **Load more results** and **Select all** to work faster), choose your import options and click **Import selected listings**. The import runs in the background and you'll get a notification when it finishes.
 
-<Tip>
-**Recommended:** click **Edit API key** after creating it and, under *API restrictions*, restrict it to the **Places API (New)** only. If the key ever leaks, it can't be used for anything else.
-</Tip>
+### How credits work
 
-## Step 2: Connect the key in Directify
+**1 credit = 1 imported listing**, including its 10 newest Google reviews if you enable review import. Searching and previewing is always free (contact details stay hidden in the preview and unlock when you import).
 
-1. In your directory panel, go to **Content → Google Maps Import**
-2. Paste the API key and click **Save & validate key**
+| Pack | Credits | Price |
+| --- | --- | --- |
+| Starter | 100 | $9 |
+| Growth | 500 | $29 |
+| Pro | 2,000 | $79 |
+| Agency | 10,000 | $299 |
 
-Directify makes a minimal test request to confirm the key works before saving it. The key is stored encrypted, and you can disconnect it at any time — listings you already imported are not affected.
+- Credits never expire and work across all your directories
+- Pro plans and above get **10 free credits** to try it out
+- If some selected businesses can't be imported (already imported, or you hit your plan's listing limit), those credits are **refunded automatically**
 
-If validation fails, the two usual causes are: the **Places API (New)** isn't enabled on the key's project (step 3 above), or **billing** isn't set up (step 4 above).
+### Importing ALL reviews
 
-## Step 3: Search and import
+With credits you can import **every review a business has** — not just the newest ones. Choose *"All reviews"* in the import options; it costs **1 extra credit per 200 reviews per listing** (rounded up), and the exact total is shown before you confirm, based on the review counts in the preview.
 
-1. Type a niche plus a location — e.g. `coffee shops in Portland, OR` or `zahnärzte in Berlin` (any language works)
-2. Browse the results and tick the businesses you want. Use **Load more results** to fetch up to 60 in total, and **Select all** / **Clear selection** to work faster. Businesses you've already imported are marked and can't be imported twice
-3. Choose your import options and click **Import selected listings**
+<Info>
+Full-review import is only possible with credits. Google's own API — the "bring your own key" path — returns a maximum of 5 reviews per place.
+</Info>
 
-### Import options
+## Import options
 
-- **Assign to category** — attach every imported listing to one of your categories. You can refine per-listing categories afterwards
-- **Publish immediately** — off by default: listings are imported as **drafts**, so you can review and edit them before they go live on your site
-- **Also import Google reviews** — see below
-
-The import runs in the background; you'll get a notification (and an email) when it finishes, with a summary of what was imported and skipped.
+- **Assign to category** — attach every imported listing to one of your categories; refine per-listing afterwards
+- **Publish immediately** — off by default: listings are imported as **drafts** so you can review and edit them before they go live
+- **Google reviews** — don't import / newest reviews / all reviews (credits only)
 
 ### What gets imported
 
@@ -60,31 +61,43 @@ The import runs in the background; you'll get a notification (and an email) when
 | Phone number | As listed on Google Maps |
 | Website | Becomes the listing's URL |
 | Opening hours | Stored in your `hours_of_operation` custom field, if your directory has one (the Local Business template ships with it) |
+| Reviews (optional) | Author name, link to their Google profile, star rating, text and original date — imported pre-approved and shown on the listing page |
 
 Photos are **not** imported — Google Maps photos belong to the people who uploaded them. Set a [custom default listing image](/directories/customize-your-directory) or add your own images per listing.
 
-## Importing Google reviews
-
-Tick **"Also import Google reviews"** to copy up to 5 reviews per listing (that's the maximum Google provides). Reviews are imported already-approved with the author's name, a link to their Google profile, the star rating, the review text and the original review date — they show up on your listing pages immediately.
-
-Re-importing a listing never duplicates its reviews, and you can delete imported reviews at any time from your Reviews page.
+Re-importing never creates duplicates: every imported listing remembers its Google place ID, and already-imported businesses are marked in search results.
 
 <Warning>
-**Know the trade-off before importing reviews.** Google's Terms of Service don't permit storing review content permanently, and each review is its author's own text. Importing copies these reviews into your directory through your own Google API key — the choice, and the responsibility, are yours. Directify always stores and displays the author's name with a link to their Google profile.
+**Know the trade-off before importing reviews.** Each review is its author's own text, and copying reviews out of Google is outside what Google's Terms of Service permit. The choice, and the responsibility, are yours. Directify always stores and displays the author's name with a link to their Google profile, and you can delete imported reviews at any time from your Reviews page.
 </Warning>
 
-## Costs
+## Advanced: use your own Google API key
 
-Your key is billed by Google, not by Directify. As a rule of thumb:
+If you'd rather not use credits, connect your own Google API key — searches and imports are then unlimited and free of credits, billed by Google directly to your Google account (their free monthly tier covers roughly 15–20 typical search-and-import sessions; one search costs about $0.10 and reviews add roughly $0.04 per imported listing).
 
-- **One search** (up to 60 results) costs about **$0.10** in Google's pricing
-- **Importing with reviews** adds roughly **$0.04 per imported listing**
+The trade-offs: creating the key requires a few steps in the Google Cloud Console, and reviews are capped at 5 per listing by Google's API.
 
-Google's free monthly tier covers roughly 15–20 typical search-and-import sessions per month at **$0**. You can monitor usage anytime in the Google Cloud Console under *APIs & Services*.
+### Creating the key
+
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/) and sign in with any Google account
+2. Create a project (top bar → project dropdown → **New project**) — name it anything, e.g. "My Directory"
+3. Enable the Places API: open [Places API (New)](https://console.cloud.google.com/apis/library/places.googleapis.com) and click **Enable**. Make sure it's the one called **"Places API (New)"** — Google also lists an older "Places API" that won't work
+4. Set up billing if the console asks for it (**Billing** in the left menu). A card is required by Google even for free-tier usage — you won't be charged within the free monthly allowance
+5. Create the key: go to [Credentials](https://console.cloud.google.com/apis/credentials) → **Create credentials** → **API key**. Copy the key (it starts with `AIza`)
+
+<Tip>
+**Recommended:** click **Edit API key** after creating it and, under *API restrictions*, restrict it to the **Places API (New)** only. If the key ever leaks, it can't be used for anything else.
+</Tip>
+
+### Connecting it
+
+On the Google Maps Import page, expand *"Prefer to use your own Google API key instead?"*, paste the key and click **Save & validate key**. Directify makes a minimal test request to confirm the key works before saving it; the key is stored encrypted, and you can disconnect it at any time.
+
+If validation fails, the two usual causes are: the **Places API (New)** isn't enabled on the key's project (step 3 above), or **billing** isn't set up (step 4 above).
 
 ## Good to know
 
-- **The data becomes yours to maintain.** Imported listings are regular listings — they don't stay in sync with Google, and under Google's terms, long-term storage of the imported details is your responsibility as the API key owner
-- **Duplicates are handled automatically** — every imported listing remembers its Google place ID, so re-running the same search skips businesses you already have
-- **Plan limits apply** — imports count toward your plan's listing limit; anything over the limit is skipped and reported in the completion notification
+- **The data becomes yours to maintain.** Imported listings are regular listings — they don't stay in sync with Google, and long-term storage of the imported details is your responsibility
+- **Plan limits apply** — imports count toward your plan's listing limit; anything over the limit is skipped, reported in the completion notification, and refunded if you paid with credits
+- **Free searches are rate-limited** to 50 per day on the credits path; your own API key has no Directify-side limit
 - **Great with claims** — import the businesses in your niche, then let them [claim their listing](/listings/add-listing) to take ownership and keep it updated
