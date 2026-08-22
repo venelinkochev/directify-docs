@@ -30,7 +30,7 @@ To integrate Stripe securely, you need to create a Restricted Key with specific 
 
 Click the button below to create a pre-configured Restricted Key with all required permissions:
 
-**[Create Restricted Key in Stripe →](https://dashboard.stripe.com/apikeys/create?name=Directify%20Paid%20Submissions&permissions%5B%5D=rak_product_read&permissions%5B%5D=rak_price_read&permissions%5B%5D=rak_plan_read&permissions%5B%5D=rak_checkout_session_write&permissions%5B%5D=rak_customer_write&permissions%5B%5D=rak_webhook_write)**
+**[Create Restricted Key in Stripe →](https://dashboard.stripe.com/apikeys/create?name=Directify%20Paid%20Submissions&permissions%5B%5D=rak_product_read&permissions%5B%5D=rak_price_read&permissions%5B%5D=rak_checkout_session_write&permissions%5B%5D=rak_customer_write&permissions%5B%5D=rak_webhook_write)**
 
 This link will:
 - Pre-fill the key name as "Directify Paid Submissions"
@@ -50,7 +50,6 @@ If you prefer to create the key manually:
    **Required Permissions:**
    - **Products**: Read
    - **Prices**: Read
-   - **Plans**: Read
    - **Checkout Sessions**: Write
    - **Customers**: Write
    - **Webhooks**: Write
@@ -126,6 +125,14 @@ Once configured, users can submit paid listings to your directory:
 5. The user selects a plan and completes payment via Stripe's secure checkout.
 6. Upon successful payment, their submission is processed for review.
 
+## Using One Stripe Account for Multiple Directories
+
+You can connect several directories to the **same Stripe account** — a single restricted key works for all of them. A few things to know:
+
+- **Each directory gets its own webhook endpoint.** Verifying credentials in each directory creates a separate endpoint (one per directory URL) with its own signing secret. You never need to copy webhook secrets between directories.
+- **Stripe delivers every event to every endpoint on the account.** When a payment happens on one directory, Stripe also notifies your other directories' endpoints. Those sibling events are recognized and safely acknowledged — they don't affect the other directories and won't show up as errors.
+- **Prefer fully separate reporting?** Stripe lets you create multiple accounts under one login (top-left account switcher → **Create new account**). One account per directory keeps products, payouts, and webhook logs completely separate — use whichever setup you prefer.
+
 ## Test Mode vs Live Mode
 
 <Warning>
@@ -137,8 +144,15 @@ If you use a test restricted key (`rk_test_...`), you'll see a **Test Mode** war
 ### Webhook Issues
 If webhooks aren't working:
 1. Check that the webhook endpoint was created successfully in your Stripe Dashboard under **Developers** > **Webhooks**.
-2. Verify the webhook URL matches the one shown in your directory settings.
+2. Verify the webhook URL matches the one shown in your directory settings — it must be exactly `https://yourdomain.com/webhooks/stripe` (no `www.` unless your directory runs on `www.`, and always `https://`).
 3. Ensure all required events are enabled on the webhook endpoint.
+
+### High Webhook Error Rates
+If Stripe shows an endpoint failing with signature errors, the usual cause is **duplicate endpoints for the same URL**: verifying credentials more than once used to leave older endpoints behind, and only the newest one has the secret your directory knows. To fix it:
+
+1. In Stripe, go to **Developers** > **Webhooks** and look for multiple endpoints with the same URL.
+2. Open your directory's **Paid Submissions** settings and click **Verify Credentials and Pull Plans** once — this now removes the stale duplicates for that URL and sets up a single fresh endpoint automatically.
+3. Send a test event from the endpoint's page in Stripe (**Send test webhook**) and confirm it returns a `200`.
 
 ### No Plans Showing Up
 If plans aren't syncing:
