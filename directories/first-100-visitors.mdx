@@ -1,0 +1,47 @@
+---
+title: 'Getting Your First 100 Visitors'
+sidebarTitle: 'First 100 visitors'
+icon: "users"
+description: 'Why a new directory sees no traffic at first, what has to be true before Google can send any, and the three things that actually get the first hundred visitors through the door.'
+---
+
+A freshly built directory almost always shows zero visitors for a while. That is normal, and most of the wait is on Google's side — but only if two things are true first. This guide covers what to do, in order, and what to expect.
+
+## 1. Connect your own domain
+
+Directories served from a Directify subdomain (for example `yourdirectory.directify.xyz`) are **hidden from search engines**: every page carries a `noindex` tag. That keeps half-built directories and duplicates out of Google's index, but it also means nothing you publish there can rank until you connect a domain.
+
+Follow [Connect a Custom Domain](/directories/custom-domain). Once the domain is verified, the `noindex` tag is removed automatically and your subdomain redirects to the domain.
+
+<Info>
+  Custom domains are included on every paid plan. If you don't own a domain yet, a `.com` costs about $10/year at Cloudflare, Namecheap, or Porkbun.
+</Info>
+
+## 2. Tell Google about it
+
+Google will find a new domain on its own eventually, but you can shorten the wait considerably:
+
+1. Open [Google Search Console](https://search.google.com/search-console) and add your domain as a property (the **Domain** property type, verified with the DNS record Google gives you).
+2. Go to **Sitemaps** and submit `https://yourdomain.com/sitemap.xml`. Directify generates and updates the sitemap for you.
+3. Optional: paste your homepage URL into **URL inspection** and click **Request indexing**.
+
+**What to expect:** Google usually starts sending the first organic visitors **2–6 weeks** after it discovers the domain. Directories with more listings and more categories tend to get there faster because there are more pages to rank. Check **Performance** in Search Console — impressions show up before clicks do, and that is your sign it is working.
+
+<Tip>
+  The [SEO settings](/settings/routes) page in your dashboard shows your sitemap URL and lets you set per-page titles and descriptions. Filling in the homepage meta description is the single cheapest SEO win.
+</Tip>
+
+## 3. Share the link
+
+The fastest first 100 visitors come from you, not from Google:
+
+- **Tell the businesses you listed.** Email or DM each one a link to their listing. Most will share it, and a claimed listing is a listing that gets kept up to date. Enable [listing claims](/listings/add-listing) so they can take ownership.
+- **Post where your niche already is.** A subreddit, a Facebook group, a Discord, a LinkedIn community, a local newsletter. Lead with the useful part ("here are all 80 dog groomers in Austin, with hours and reviews") rather than the product.
+- **Answer questions with it.** Whenever someone asks "does anyone know a good…" in your niche, your directory is the answer.
+- **Add it to your other profiles.** Your email signature, your social bios, your personal site.
+
+## Where you are on the path
+
+Your dashboard's **Analytics** page shows the visitors you have today. While the total is under 20 you will see a *Your first 100 visitors* card there with these three steps and their status.
+
+If you have had a verified domain for more than six weeks and still see no impressions in Search Console, something else is wrong — reach out on [Discord](https://discord.gg/B9hTD4kAJY) or email support and we will look at it with you.
