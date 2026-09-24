@@ -36,6 +36,10 @@ After entering your domain, you'll see two options for connecting your domain. C
     | `ns2.directify.app` |
 
     <Info>
+      **Your email keeps working.** Before you switch, the wizard lists the MX, SPF, DKIM, DMARC and mail records it found on your domain. They are copied into the new zone automatically when you submit, and you can edit them any time under **Settings → Manage DNS Records**.
+    </Info>
+
+    <Info>
       **Why this is recommended:**
       - Simplest setup - just change nameservers once
       - We manage all DNS records for you automatically
@@ -82,14 +86,19 @@ After entering your domain, you'll see two options for connecting your domain. C
 
 ## Step 3: Wait for Verification
 
-After configuring your DNS (either nameservers or CNAME records), click **Submit** to start the verification process.
+Click **Submit** as soon as you have made the change at your DNS provider (or even before — we check either way). From then on the Custom Domain page shows a **live status card** instead of the wizard:
 
-DNS propagation typically takes:
+- Each requirement is listed with what we **expect** and what we currently **see** in DNS — nameservers or CNAME records, then the Cloudflare hostname and SSL certificate.
+- The **Next step** line tells you the one thing to change. When we can tell which registrar hosts your DNS (GoDaddy, Namecheap, Cloudflare, Squarespace, Wix, IONOS and others), it links to that registrar's own guide.
+- We re-check every **5 minutes** and the page refreshes on its own. **Check now** re-reads DNS immediately.
+- **Change domain or method** reopens the wizard; **Remove Domain** stops the setup.
+
+How long it takes:
 - **1-5 minutes** - Cloudflare, AWS Route 53
 - **1-4 hours** - Google Domains, Namecheap
 - **24-48 hours** - Nameserver changes at some registrars
 
-You'll receive an email notification when your domain is verified and active.
+You'll receive an email when the domain is active. If it is still pending after a day, we email you what we see and what to change; after three days we send one last reminder and then keep checking quietly. After a week without any change we pause the automatic checks — press **Check now** to resume them.
 
 <Frame>
   <img src="/images/verify-domain.png" alt="Domain verification process" />
