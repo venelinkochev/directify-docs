@@ -1,0 +1,96 @@
+---
+title: 'Multilingual Directories'
+sidebarTitle: 'Languages'
+icon: "language"
+description: 'Run your directory in one or several languages: set your main language, add more with their own URLs and a language switcher, and translate everything yourself or with AI.'
+---
+
+Every Directify directory can be written in any language, and on paid plans it can speak several at once. Each extra language gets its own web addresses (`yourdirectory.com/es/…`), a language switcher for visitors and the tags search engines need to show every country its own version.
+
+## Your main language
+
+Open **Settings → Languages**. Under **Site language**, pick the language your directory is written in.
+
+- Buttons, filters, dates, form messages and the emails visitors receive follow it. **Spanish, German, Dutch and French** are fully built in; **Arabic** is in beta and switches the layout to right-to-left.
+- For other languages your content works as usual and the interface stays in English. You can still change every interface text yourself in the Theme Editor.
+- Your main language is available on every plan, including Free.
+
+## Add more languages
+
+Every paid plan can add more languages (up to 20 per directory).
+
+1. Open **Settings → Languages**.
+2. Under **More languages**, pick the languages to add.
+3. Choose where the **Language switcher** goes: **In the header**, **In the footer** or **Hidden**.
+4. Save.
+
+Your directory is now also available at `/es/`, `/de/` and so on, and your main language stays exactly where it is. **Translated so far** shows how much of your content each language has.
+
+<Note>
+Pages you haven't translated yet show your main-language text, so no page is ever empty. Visitors reach every page in every language from the start, and it gets better as you translate.
+</Note>
+
+### Web addresses per language
+
+Optionally give each language its own words in web addresses, like `/es/anuncios/` instead of `/es/listings/`. Set them under **Web addresses per language**; empty fields keep your usual ones.
+
+Listings, categories, articles, pages and organizers can also have a translated slug (`/es/anuncios/cafe-de-joe`). Opening the untranslated address redirects to the translated one.
+
+## Translate your content
+
+### By hand
+
+Open any listing, category, tag, article, page, organizer or custom field and use the **Language** menu at the top of the edit page to pick a language. The page then shows only the fields that can be translated, each with your original text underneath.
+
+- Leave a field empty to keep showing the original text in that language.
+- Links, images, prices, toggles and categories are shared by all languages, so they don't appear here.
+- When you change the original text later, its translations are marked **Outdated** so you know what to review.
+- The **Translations** column in your listings table shows which languages each listing has.
+
+For custom fields with choices (select and multi-select), you can also translate each option. Visitors see the translated option, and your filters keep working exactly as before.
+
+### Interface texts and settings
+
+- **Buttons and labels:** open the Theme Editor and pick the language at the top. Changes you make there apply to that language only.
+- **Your directory name, hero texts, messages and the pricing page:** use **Translate texts** (linked from Settings → Languages).
+- **Emails:** open **Settings → Email Templates** and pick the language at the top to write that language's version. Emails you haven't written use the built-in translation.
+
+### With AI
+
+- **Everything at once:** on **Settings → Languages**, click **Translate with AI** and pick a language. Every listing, category, tag, article, page, organizer and custom field that isn't translated yet is translated, including SEO titles and descriptions.
+- **A selection:** in the Listings, Categories or Articles table, select rows and choose **Translate with AI**.
+- **One record:** on its edit page, open the **Language** menu and choose **Translate into all languages with AI**.
+- **New listings automatically:** under **AI translation → Translate new listings automatically into**, tick the languages. Off by default.
+- **Never translate:** list brand names, place names or other terms the AI should keep exactly as they are.
+
+**Cost:** 1 credit per 4 items per language. The cost is shown before anything runs, and credits for items that fail are refunded. With your own OpenAI or Claude key connected under **Settings → Integrations**, AI translation is free. Your balance is in the top bar; buy more on the **Credits** page.
+
+## Submissions in other languages
+
+A business that submits a listing from one of your language pages (for example `/es/listings/create`) writes it in that language:
+
+- The listing shows on your Spanish pages as written, and on your other language pages it falls back to the Spanish text until it's translated. With automatic translation on, it's translated into your main language (and the languages you ticked) as soon as it's added.
+- The listing is marked **Written in ES** in your listings table.
+- The business receives its emails in Spanish and uses its dashboard in Spanish. Visitors who send a booking request or claim a listing from your Spanish pages get their emails in Spanish too.
+
+## Search engines
+
+Each language is a separate set of pages for Google, with the tags that connect them:
+
+- **hreflang tags** on every page, listing only the languages that page is actually translated into.
+- A **multilingual sitemap** with every language version.
+- Translated page titles, descriptions and social sharing tags.
+
+See [Multilingual SEO](/directories/multi-language-seo) for how this works and when to use one directory with languages instead of separate directories.
+
+## Search on your directory
+
+Visitors search the content of the language they're browsing, so a search on your Spanish pages matches the Spanish names and descriptions.
+
+## Removing a language
+
+Remove it from **More languages** and save. Its pages redirect permanently (301) to your main language. If a paid plan ends, extra languages are hidden instead of deleted (their pages redirect temporarily with a 302) and come back with their translations when you upgrade again.
+
+## For developers
+
+The [API](/api-integration/languages), [MCP server](/ai-tools/mcp-server), [CLI](/ai-tools/cli), [CSV import and export](/listings/import-export) and [webhooks](/integrations/webhooks) all read and write translations.
