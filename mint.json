@@ -156,6 +156,7 @@
       "pages": [
         "api-integration/authentication",
         "api-integration/directories",
+        "api-integration/languages",
         "api-integration/projects",
         "api-integration/categories",
         "api-integration/tags",

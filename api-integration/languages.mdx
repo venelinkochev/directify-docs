@@ -1,0 +1,205 @@
+---
+title: "Languages & Translations"
+icon: "language"
+description: "Read and write your directory's content in every language it offers: list the languages, read records in one language, and send translations with any create or update."
+---
+
+## Languages & Translations
+
+A directory has one **default language** and, on paid plans, **extra languages**. Every record (listing, category, tag, article, page, organizer, custom field) keeps its own text in one language and a translation for each of the others.
+
+The API works with both:
+
+- `GET /api/directories/{directory_id}/languages` tells you which languages a directory has.
+- `?locale=` on any read returns records in one language.
+- A `translations` object appears on every record of a multilingual directory, and can be sent with any create or update.
+
+<Note>
+Languages are added and removed in the dashboard under **Settings → Languages**. The API reads and writes translations for the languages a directory already has.
+</Note>
+
+### Get Directory Languages
+
+```http
+GET /api/directories/{directory_id}/languages
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+
+**Response:**
+
+```json
+{
+  "data": {
+    "default": "en",
+    "languages": [
+      {
+        "code": "en",
+        "tag": "en",
+        "name": "English",
+        "native_name": "English",
+        "default": true,
+        "rtl": false,
+        "url": "https://your-directory.com/"
+      },
+      {
+        "code": "es",
+        "tag": "es",
+        "name": "Spanish",
+        "native_name": "Español",
+        "default": false,
+        "rtl": false,
+        "url": "https://your-directory.com/es/"
+      }
+    ],
+    "auto_translate": ["es"],
+    "do_not_translate": ["Directify"]
+  }
+}
+```
+
+- `default`: the language records' own fields are written in.
+- `languages`: the default language first, then the extra languages. `url` is that language's home page.
+- `auto_translate`: languages new listings are translated into automatically.
+- `do_not_translate`: words AI translation keeps as they are.
+
+A single-language directory returns only its default language.
+
+### Reading in a Language
+
+Add `locale` to any `GET` request:
+
+```http
+GET /api/directories/{directory_id}/projects?locale=es
+GET /api/directories/{directory_id}/categories/{category_id}?locale=es
+```
+
+Text fields come back in that language: the translation where there is one, the original text otherwise (the same fallback visitors see on the directory). Translated slugs are returned too.
+
+Without `locale`, records come back exactly as stored.
+
+A code that isn't one of the directory's languages returns `422`:
+
+```json
+{
+  "message": "\"fr\" isn't one of this directory's languages.",
+  "languages": ["en", "es", "de"]
+}
+```
+
+`locale` only applies to reads. Sending it with `POST`, `PUT` or `PATCH` returns `422`: write translations with the `translations` object instead.
+
+### The `translations` Object
+
+On multilingual directories every record includes a `translations` object, keyed by language code:
+
+```json
+{
+  "data": {
+    "id": 1,
+    "name": "Joe's Coffee",
+    "slug": "joes-coffee",
+    "description": "Specialty coffee and pastries.",
+    "source_locale": null,
+    "translations": {
+      "es": {
+        "name": "Café de Joe",
+        "slug": "cafe-de-joe",
+        "description": "Café de especialidad y bollería.",
+        "seo_title": "Café de Joe | Café de especialidad"
+      },
+      "de": {
+        "name": "Joes Kaffee"
+      }
+    }
+  }
+}
+```
+
+Only translated fields are listed; a missing field shows the original text on that language's pages. Single-language directories don't include the key.
+
+### Writing Translations
+
+Send `translations` with any create or update:
+
+```http
+PUT /api/directories/{directory_id}/projects/{project_id}
+```
+
+```json
+{
+  "translations": {
+    "es": {
+      "name": "Café de Joe",
+      "description": "Café de especialidad y bollería.",
+      "seo_title": "Café de Joe | Café de especialidad"
+    },
+    "de": {
+      "name": null
+    }
+  }
+}
+```
+
+- Fields you leave out are unchanged.
+- `null` (or an empty string) removes that translation, so the page falls back to the original text.
+- A translated `slug` is made unique within the directory, like default slugs.
+- Translations can be sent on their own or together with the record's own fields in the same request.
+
+Everything is checked before anything is saved. An unknown language, a field that can't be translated, or the record's own language returns `422`:
+
+```json
+{
+  "message": "\"url\" can't be translated. Translatable fields: slug, name, description, content, seo_title, seo_description.",
+  "errors": {
+    "translations.es.url": [
+      "\"url\" can't be translated. Translatable fields: slug, name, description, content, seo_title, seo_description."
+    ]
+  }
+}
+```
+
+In [bulk listing creation](/api-integration/projects#bulk-create-listings) each listing takes its own `translations`. A listing with an invalid translation is reported in `errors` and the others are still created.
+
+### Translatable Fields
+
+| Resource | Fields |
+|----------|--------|
+| Listings | `name`, `slug`, `description`, `content`, `seo_title`, `seo_description` |
+| Categories | `title`, `slug`, `display_name`, `description`, `content`, `filter_group`, `seo_title`, `seo_description` |
+| Tags | `title` |
+| Articles | `title`, `slug`, `content`, `markdown`, `seo_title`, `seo_description` |
+| Pages | `title`, `slug`, `markdown`, `seo_title`, `seo_description` |
+| Organizers | `name`, `slug`, `description`, `content` |
+| Custom fields | `label`, `placeholder`, `description`, `value_prefix`, `value_suffix` |
+
+Links, images, prices, toggles and relations are shared by all languages and can't be translated.
+
+<Note>
+Choice labels of select custom fields and listings' text custom field values are translated in the dashboard (or with AI translation) and aren't writable through the API yet. They are returned in the page language when you read with `locale`.
+</Note>
+
+### Listings Written in Another Language
+
+Listings submitted from a language page (for example `/es/listings/create`) are stored in that language. Their `source_locale` is its code (`null` means the default language).
+
+You can set it yourself when a listing's text isn't in the default language:
+
+```json
+{
+  "name": "Café Azul",
+  "description": "Café de especialidad en el centro.",
+  "source_locale": "es",
+  "translations": {
+    "en": { "name": "Blue Café" }
+  }
+}
+```
+
+For such a listing, `translations` may include the default language, but not its own language. It appears on the Spanish pages as written, and on the other language pages (the default one included) in their translation, falling back to the Spanish text.
+
+### Webhooks and CSV
+
+- [Webhooks](/integrations/webhooks) include `translations` in created/updated payloads and offer `*.translated` events.
+- [CSV import and export](/listings/import-export) read and write translations as `name:es`-style columns.

@@ -26,6 +26,7 @@ GET /api/directories/{directory_id}/organizers
 
 **Parameters:**
 - `directory_id` (integer, required): The ID of the directory
+- `locale` (string, optional): A language code of the directory (e.g. `es`). Returns text fields in that language. See [Languages & Translations](/api-integration/languages)
 
 **Response:**
 
@@ -75,6 +76,7 @@ GET /api/directories/{directory_id}/organizers/{organizer_id}
 **Parameters:**
 - `directory_id` (integer, required): The ID of the directory
 - `organizer_id` (integer, required): The ID of the organizer
+- `locale` (string, optional): A language code of the directory (e.g. `es`). Returns text fields in that language. See [Languages & Translations](/api-integration/languages)
 
 **Response:**
 
@@ -157,6 +159,10 @@ POST /api/directories/{directory_id}/organizers
 - `is_active` (boolean, optional): Whether the organizer is active (default: true)
 - `order` (integer, optional): Sort order for display (default: 0)
 
+<Note>
+**Translations:** On multilingual directories, add a `translations` object keyed by language code, e.g. `"translations": {"es": {"name": "…"}}`. Send `null` for a field to remove its translation. See [Languages & Translations](/api-integration/languages).
+</Note>
+
 **Response:**
 
 ```json
@@ -228,6 +234,10 @@ PUT /api/directories/{directory_id}/organizers/{organizer_id}
 - `user_id` (integer, optional): ID of a user to assign as the organizer owner
 - `is_active` (boolean, optional): Whether the organizer is active
 - `order` (integer, optional): Sort order for display
+
+<Note>
+**Translations:** On multilingual directories, add a `translations` object keyed by language code, e.g. `"translations": {"es": {"name": "…"}}`. Send `null` for a field to remove its translation. See [Languages & Translations](/api-integration/languages).
+</Note>
 
 **Response:**
 

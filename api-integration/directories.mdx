@@ -29,4 +29,14 @@ GET /api/directories
     }
   ]
 }
-``` 
+```
+
+### Get Directory Languages
+
+A directory's default and extra languages, with each language's home page URL:
+
+```http
+GET /api/directories/{directory_id}/languages
+```
+
+See [Languages & Translations](/api-integration/languages) for the response and for reading and writing content in each language.

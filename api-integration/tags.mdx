@@ -18,6 +18,7 @@ GET /api/directories/{directory_id}/tags
 
 **Parameters:**
 - `directory_id` (integer, required): The ID of the directory
+- `locale` (string, optional): A language code of the directory (e.g. `es`). Returns text fields in that language. See [Languages & Translations](/api-integration/languages)
 
 **Response:**
 
@@ -67,6 +68,7 @@ GET /api/directories/{directory_id}/tags/{tag_id}
 **Parameters:**
 - `directory_id` (integer, required): The ID of the directory
 - `tag_id` (integer, required): The ID of the tag
+- `locale` (string, optional): A language code of the directory (e.g. `es`). Returns text fields in that language. See [Languages & Translations](/api-integration/languages)
 
 **Response:**
 
@@ -126,6 +128,10 @@ POST /api/directories/{directory_id}/tags
 - `show_title` (boolean, optional): Whether to display the tag title (default: true)
 - `show_icon` (boolean, optional): Whether to display the tag icon (default: true)
 
+<Note>
+**Translations:** On multilingual directories, add a `translations` object keyed by language code, e.g. `"translations": {"es": {"title": "…"}}`. Send `null` for a field to remove its translation. See [Languages & Translations](/api-integration/languages).
+</Note>
+
 **Response:**
 
 ```json
@@ -180,6 +186,10 @@ PUT /api/directories/{directory_id}/tags/{tag_id}
 - `text_color` (string, optional): Text/accent color for the tag display (max 255 characters)
 - `show_title` (boolean, optional): Whether to display the tag title
 - `show_icon` (boolean, optional): Whether to display the tag icon
+
+<Note>
+**Translations:** On multilingual directories, add a `translations` object keyed by language code, e.g. `"translations": {"es": {"title": "…"}}`. Send `null` for a field to remove its translation. See [Languages & Translations](/api-integration/languages).
+</Note>
 
 **Response:**
 
