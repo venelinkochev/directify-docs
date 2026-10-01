@@ -193,13 +193,15 @@ Restart your AI client, then ask:
 
 > *"Create an organizer 'Acme Events' and link these three listings to it."*
 
+> *"Which languages does this directory have? Add Spanish translations for the names and descriptions of my five newest listings."*
+
 ## What can it do?
 
 The MCP server exposes tools for every major part of your directory:
 
 | Area | Examples |
 |---|---|
-| **Directories** | list directories you own |
+| **Directories** | list directories you own, list a directory's languages |
 | **Listings** | list, get, create, update, delete, bulk-create, check-exists, set custom field values, link organizers |
 | **Categories** | list, get, create, update, delete |
 | **Tags** | list, get, create, update, delete |
@@ -207,6 +209,17 @@ The MCP server exposes tools for every major part of your directory:
 | **Organizers** | list, get, create, update, delete |
 | **Articles** | list, get, create, update, delete, toggle published |
 | **Custom Pages** | list, get, create, update, delete, toggle published |
+| **Translations** | read any record in one of the directory's languages, write translations with any create or update |
+
+### Multilingual directories
+
+On directories with more than one language, the assistant can work in every language:
+
+- **`list_languages`** shows the directory's default language (the one records' own text is written in) and its extra languages.
+- **Reading:** the list and get tools take an optional `locale` (e.g. `es`) and return text in that language.
+- **Writing:** the create and update tools take `translations`, keyed by language code, e.g. `{"es": {"name": "Café de Joe"}}`. Listings also take `source_locale` when their own text isn't in the default language.
+
+Records of multilingual directories include their `translations`, so the assistant can see what's missing before filling it in. See [Languages & Translations](/api-integration/languages) for the fields each resource translates.
 
 ## Troubleshooting
 

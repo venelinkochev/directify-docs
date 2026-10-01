@@ -19,6 +19,7 @@ GET /api/directories/{directory_id}/projects
 **Parameters:**
 - `directory_id` (integer, required): The ID of the directory
 - `page` (integer, optional): Page number for pagination (default: 1)
+- `locale` (string, optional): A language code of the directory (e.g. `es`). Returns text fields in that language. See [Languages & Translations](/api-integration/languages)
 
 **Response:**
 
@@ -103,6 +104,10 @@ GET /api/directories/{directory_id}/projects
 }
 ```
 
+<Note>
+On multilingual directories each listing also includes `source_locale` (the language its own text is written in, `null` for the default language) and a `translations` object, e.g. `"translations": {"es": {"name": "Café de Joe", "slug": "cafe-de-joe"}}`. See [Languages & Translations](/api-integration/languages).
+</Note>
+
 ### Get Single Listing
 
 Retrieve a specific listing by ID.
@@ -114,6 +119,7 @@ GET /api/directories/{directory_id}/projects/{project_id}
 **Parameters:**
 - `directory_id` (integer, required): The ID of the directory
 - `project_id` (integer, required): The ID of the listing
+- `locale` (string, optional): A language code of the directory (e.g. `es`). Returns text fields in that language. See [Languages & Translations](/api-integration/languages)
 
 **Response:**
 
@@ -276,6 +282,10 @@ POST /api/directories/{directory_id}/projects
 
 <Note>
 **Expiring listings:** `starts_at` and `ends_at` control when a listing is visible. A listing with a `starts_at` in the future stays hidden until that moment, and once `ends_at` passes it is either badged as expired or hidden entirely — depending on the directory's [expiring listings setting](/listings/add-listing#expiring-listings). Both are optional; omit them and the listing is live immediately and never expires. Accepts any date format PHP can parse, e.g. `2026-08-01 09:00:00` or `2026-08-01T09:00:00Z`.
+</Note>
+
+<Note>
+**Translations:** On multilingual directories, add a `translations` object keyed by language code, e.g. `"translations": {"es": {"name": "…"}}`. Send `null` for a field to remove its translation. Set `source_locale` when the listing's own text isn't in the directory's default language. See [Languages & Translations](/api-integration/languages).
 </Note>
 
 **Response:**
@@ -521,6 +531,10 @@ When a `url` is provided, the API uses it for duplicate detection. If a listing 
 
 ---
 
+<Note>
+**Translations:** On multilingual directories, add a `translations` object keyed by language code, e.g. `"translations": {"es": {"name": "…"}}`. Send `null` for a field to remove its translation. Set `source_locale` when the listing's own text isn't in the directory's default language. See [Languages & Translations](/api-integration/languages).
+</Note>
+
 ### Update Listing
 
 Update an existing listing.
@@ -563,6 +577,10 @@ PUT /api/directories/{directory_id}/projects/{project_id}
 
 <Note>
 Pass `ends_at: null` to remove an expiry date and make a listing permanent again.
+</Note>
+
+<Note>
+**Translations:** On multilingual directories, add a `translations` object keyed by language code, e.g. `"translations": {"es": {"name": "…"}}`. Send `null` for a field to remove its translation. Set `source_locale` when the listing's own text isn't in the directory's default language. See [Languages & Translations](/api-integration/languages).
 </Note>
 
 **Response:**

@@ -64,6 +64,21 @@ Common error messages include:
   Use the error messages to correct issues in your import file, then retry importing the failed rows.
 </Tip>
 
+## Translations
+
+On directories with more than one language, the import and export also carry translations: one column per field and language, headed `field:code`.
+
+| Column | Contains |
+|--------|----------|
+| `name:es` | The Spanish name |
+| `description:de` | The German description |
+| `seo_title:fr` | The French SEO title |
+
+- **Import:** the column mapping lists a column for each translatable field and extra language (e.g. "Name (Spanish)"). Headers named `name:es` are matched automatically. Empty cells leave existing translations as they are.
+- **Export:** the file includes the same columns, so you can send it to a translator and import it back.
+
+Translatable columns: `title`, `slug`, `description`, `content`, `seo_title`, `seo_description`.
+
 ## Exporting Categories
 
 You can export all your categories to CSV format for backup or bulk editing purposes. The exported file will contain all the fields listed above.

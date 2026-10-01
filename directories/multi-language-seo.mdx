@@ -1,0 +1,53 @@
+---
+title: 'Multilingual SEO'
+sidebarTitle: 'Multilingual SEO'
+icon: "magnifying-glass"
+description: 'How Directify tells search engines about your languages: hreflang tags, a multilingual sitemap and one URL per language, plus when to use one directory with languages instead of separate directories.'
+---
+
+When your directory has [more than one language](/directories/languages), every language version is a separate page for search engines, and Directify adds the tags that connect them. You don't have to configure anything.
+
+## One address per language
+
+Your main language stays at its usual addresses and each extra language gets a folder:
+
+| Page | Main language | Spanish |
+|---|---|---|
+| Home | `yourdirectory.com/` | `yourdirectory.com/es/` |
+| Listing | `/listings/joe-cafe/` | `/es/listings/cafe-de-joe/` |
+| Category | `/coffee-shops/` | `/es/cafeterias/` |
+
+Language folders on one domain are the setup Google recommends for most sites: every language builds the authority of the same domain, and there's one site to manage. The words in the addresses can be translated too (see [web addresses per language](/directories/languages#web-addresses-per-language)).
+
+## What Directify adds to every page
+
+- **hreflang tags** for each language the page exists in, plus `x-default` pointing at your main language. A page that isn't translated into a language yet isn't listed for it, so Google never sends Spanish searchers to an English page labelled as Spanish.
+- **Self-referencing canonical tags**: each language version is its own canonical page.
+- **Translated titles and descriptions** from each listing's, category's, article's and page's SEO fields, when you've translated them.
+- **`og:locale`** and **`og:locale:alternate`** for social sharing, and `lang` (and `dir="rtl"` for Arabic) on the page itself.
+
+## Multilingual sitemap
+
+Your sitemap lists every language version of every page, each with links to its other languages, so search engines find the translations without having to crawl the switcher. It updates by itself when you add or remove a language.
+
+## Tips
+
+- **Translate the SEO fields.** Page titles and descriptions are what searchers see first. AI translation includes them.
+- **Translate the slugs.** `/es/anuncios/cafe-de-joe` reads better to Spanish searchers than `/es/listings/joe-cafe`. AI translation sets a translated slug from the translated name.
+- **Start with your best pages.** Untranslated pages fall back to your main language, which is fine for visitors, but translated pages are what rank in the new language.
+- **Give it time.** Search engines usually need a few weeks to pick up new language versions. You can speed this up by submitting your sitemap in Google Search Console.
+
+## One directory with languages, or separate directories?
+
+Before languages were built in, some owners ran a separate directory per language and linked them under **Languages → Linked directories** (previously Settings → SEO). That setup keeps working.
+
+For most directories, one directory with languages is simpler and stronger:
+
+| | One directory with languages | Separate directories |
+|---|---|---|
+| Listings, categories, images | Shared; translate only the text | Duplicated in every directory |
+| Domain authority | Builds one domain | Split across domains |
+| New listings | Appear in every language at once | Added to each directory |
+| Submissions and payments | One place | One per directory |
+
+Separate directories still make sense when each country has **different listings** (a French directory of French businesses and a German one of German businesses), rather than the same listings in several languages.

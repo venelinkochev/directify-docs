@@ -18,6 +18,7 @@ GET /api/directories/{directory_id}/categories
 
 **Parameters:**
 - `directory_id` (integer, required): The ID of the directory
+- `locale` (string, optional): A language code of the directory (e.g. `es`). Returns text fields in that language. See [Languages & Translations](/api-integration/languages)
 
 **Response:**
 
@@ -96,6 +97,7 @@ GET /api/directories/{directory_id}/categories/{category_id}
 **Parameters:**
 - `directory_id` (integer, required): The ID of the directory
 - `category_id` (integer, required): The ID of the category
+- `locale` (string, optional): A language code of the directory (e.g. `es`). Returns text fields in that language. See [Languages & Translations](/api-integration/languages)
 
 **Response:**
 
@@ -169,6 +171,10 @@ POST /api/directories/{directory_id}/categories
 - `seo_description` (string, optional): SEO meta description (max 500 characters)
 - `head_html` (string, optional): Custom HTML injected into the page `<head>` section, e.g. hreflang tags (max 10000 characters)
 
+<Note>
+**Translations:** On multilingual directories, add a `translations` object keyed by language code, e.g. `"translations": {"es": {"title": "…"}}`. Send `null` for a field to remove its translation. See [Languages & Translations](/api-integration/languages).
+</Note>
+
 **Response:**
 
 ```json
@@ -231,6 +237,10 @@ PUT /api/directories/{directory_id}/categories/{category_id}
 - `seo_title` (string, optional): SEO meta title (max 255 characters)
 - `seo_description` (string, optional): SEO meta description (max 500 characters)
 - `head_html` (string, optional): Custom HTML injected into the page `<head>` section (max 10000 characters)
+
+<Note>
+**Translations:** On multilingual directories, add a `translations` object keyed by language code, e.g. `"translations": {"es": {"title": "…"}}`. Send `null` for a field to remove its translation. See [Languages & Translations](/api-integration/languages).
+</Note>
 
 **Response:**
 

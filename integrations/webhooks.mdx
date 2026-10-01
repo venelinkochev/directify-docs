@@ -50,6 +50,7 @@ The payload includes the following fields:
 | `model` | The type of resource (e.g., Project) |
 | `data` | The full resource data |
 | `changes` | For update events, the fields that were changed (before and after) |
+| `translations` | On multilingual directories: the record's translations, keyed by language code (e.g. `{"es": {"name": "Café de Joe"}}`) |
 
 <Note>
     For listings, the `model` will be `Project`, and the events are also prefixed with `project` as that's how we handle them internally.
@@ -79,6 +80,41 @@ The following events are available:
 | `tag.created` | Tag Created |
 | `tag.updated` | Tag Updated |
 | `tag.deleted` | Tag Deleted |
+| `project.translated` | Listing Translated |
+| `category.translated` | Category Translated |
+| `article.translated` | Article Translated |
+| `tag.translated` | Tag Translated |
+
+## Translation Events
+
+On directories with more than one language, the `*.translated` events fire when a record's translation into a language is added or changed: by you in the dashboard, through the API, from a CSV import, or by AI translation. The record's own fields changing still fires `*.updated`.
+
+Subscribe to them separately; existing webhooks don't receive them.
+
+```json
+{
+  "event": "project.translated",
+  "id": 123,
+  "model": "Project",
+  "directory_id": 1,
+  "locale": "es",
+  "data": {
+    "name": "Café de Joe",
+    "slug": "cafe-de-joe",
+    "description": "Café de especialidad y bollería."
+  },
+  "translations": {
+    "es": { "name": "Café de Joe", "slug": "cafe-de-joe", "description": "Café de especialidad y bollería." },
+    "de": { "name": "Joes Kaffee" }
+  }
+}
+```
+
+- `locale`: the language that changed.
+- `data`: that language's translated fields.
+- `translations`: all of the record's translations.
+
+See [Languages & Translations](/api-integration/languages) for the fields each resource translates.
 
 ## Best Practices
 

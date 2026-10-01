@@ -81,6 +81,7 @@ The CLI mirrors the API one-to-one. If a command errors with a validation messag
 | `auth` | `login`, `logout`, `status` |
 | `config` | `set-directory`, `get-directory` |
 | `directories` | `list` |
+| `languages` | `list` |
 | `listings` | `list`, `get`, `create`, `update`, `delete`, `exists`, `bulk-create` |
 | `categories` | `list`, `get`, `create`, `update`, `delete` |
 | `tags` | `list`, `get`, `create`, `update`, `delete` |
@@ -90,6 +91,33 @@ The CLI mirrors the API one-to-one. If a command errors with a validation messag
 | `pages` | `list`, `get`, `create`, `update`, `delete`, `toggle` |
 
 Run `directify --help` (or `directify <group> --help`) to see every command and option.
+
+## Multilingual directories
+
+On directories with more than one language (requires CLI 1.6.0 or later):
+
+```bash
+# See the directory's languages
+directify languages list
+
+# Read in a language
+directify listings list --locale es
+directify categories get 12 --locale de
+
+# Write translations (repeat --translate for each field)
+directify listings update 42 --translate es.name="Café de Joe" --translate es.description="Café de especialidad"
+
+# Or pass them all as JSON
+directify categories update 12 --translations '{"es": {"title": "Cafeterías"}, "de": {"title": "Cafés"}}'
+
+# Remove a translation (falls back to the original text)
+directify listings update 42 --translate es.name=null
+
+# A listing whose own text is in Spanish
+directify listings create --name "Café Azul" --source-locale es --translate en.name="Blue Café"
+```
+
+Bulk-create files can include `translations` and `source_locale` per listing. Each command's `--help` lists the fields it can translate; see [Languages & Translations](/api-integration/languages) for details.
 
 <Note>
 Want to manage your directory by chatting with an AI assistant instead? See the [MCP Server guide](/ai-tools/mcp-server).

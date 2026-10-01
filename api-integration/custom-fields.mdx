@@ -16,6 +16,7 @@ GET /api/directories/{directory_id}/custom-fields
 
 **Parameters:**
 - `directory_id` (integer, required): The ID of the directory
+- `locale` (string, optional): A language code of the directory (e.g. `es`). Returns text fields in that language. See [Languages & Translations](/api-integration/languages)
 
 **Response:**
 
@@ -95,6 +96,7 @@ GET /api/directories/{directory_id}/custom-fields/{custom_field_id}
 **Parameters:**
 - `directory_id` (integer, required): The ID of the directory
 - `custom_field_id` (integer, required): The ID of the custom field
+- `locale` (string, optional): A language code of the directory (e.g. `es`). Returns text fields in that language. See [Languages & Translations](/api-integration/languages)
 
 ### Create Custom Field
 
@@ -163,6 +165,10 @@ POST /api/directories/{directory_id}/custom-fields
 After creating a field, set its value on a listing by passing the field's `name` as a flat key in the listing's create/update body — e.g. `{ "name": "My Tool", "price_range": "$$" }`. See [Listings → Create Listing](/api-integration/projects#create-listing).
 </Note>
 
+<Note>
+**Translations:** On multilingual directories, add a `translations` object keyed by language code, e.g. `"translations": {"es": {"label": "…"}}`. Send `null` for a field to remove its translation. See [Languages & Translations](/api-integration/languages).
+</Note>
+
 ### Update Custom Field
 
 Update an existing custom field definition. Only include the fields you want to change.
@@ -180,6 +186,10 @@ PUT /api/directories/{directory_id}/custom-fields/{custom_field_id}
   "options": ["Free", "Pro", "Enterprise"]
 }
 ```
+
+<Note>
+**Translations:** On multilingual directories, add a `translations` object keyed by language code, e.g. `"translations": {"es": {"label": "…"}}`. Send `null` for a field to remove its translation. See [Languages & Translations](/api-integration/languages).
+</Note>
 
 ### Delete Custom Field
 

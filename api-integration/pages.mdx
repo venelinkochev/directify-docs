@@ -18,6 +18,7 @@ GET /api/directories/{directory_id}/pages
 
 **Parameters:**
 - `directory_id` (integer, required): The ID of the directory
+- `locale` (string, optional): A language code of the directory (e.g. `es`). Returns text fields in that language. See [Languages & Translations](/api-integration/languages)
 
 **Response:**
 
@@ -62,6 +63,7 @@ GET /api/directories/{directory_id}/pages/{page_id}
 **Parameters:**
 - `directory_id` (integer, required): The ID of the directory
 - `page_id` (integer, required): The ID of the page
+- `locale` (string, optional): A language code of the directory (e.g. `es`). Returns text fields in that language. See [Languages & Translations](/api-integration/languages)
 
 **Response:**
 
@@ -143,6 +145,10 @@ POST /api/directories/{directory_id}/pages
   - `title` (string, optional): SEO title (max 255 characters)
   - `description` (string, optional): Meta description (max 500 characters)
 
+<Note>
+**Translations:** On multilingual directories, add a `translations` object keyed by language code, e.g. `"translations": {"es": {"title": "…"}}`. Send `null` for a field to remove its translation. See [Languages & Translations](/api-integration/languages).
+</Note>
+
 **Response:**
 
 ```json
@@ -203,6 +209,10 @@ PUT /api/directories/{directory_id}/pages/{page_id}
 
 **Request Body Fields:**
 Same as Create Page, all fields optional.
+
+<Note>
+**Translations:** On multilingual directories, add a `translations` object keyed by language code, e.g. `"translations": {"es": {"title": "…"}}`. Send `null` for a field to remove its translation. See [Languages & Translations](/api-integration/languages).
+</Note>
 
 **Response:**
 Returns the updated page object (same format as Create Page response).
