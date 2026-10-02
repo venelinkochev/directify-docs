@@ -44,6 +44,7 @@ GET /api/directories/{directory_id}/projects
       "phone_number": "+1 (555) 123-4567",
       "email": "contact@reactjs.org",
       "address": "1 Hacker Way, Menlo Park, CA",
+      "city": "Menlo Park",
       "latitude": 37.4847,
       "longitude": -122.1477,
       "social_links": {
@@ -143,6 +144,7 @@ GET /api/directories/{directory_id}/projects/{project_id}
     "phone_number": "+1 (555) 123-4567",
     "email": "contact@reactjs.org",
     "address": "1 Hacker Way, Menlo Park, CA",
+    "city": "Menlo Park",
     "latitude": 37.4847,
     "longitude": -122.1477,
     "social_links": {
@@ -245,6 +247,7 @@ POST /api/directories/{directory_id}/projects
   "phone_number": "+1 (555) 123-4567",
   "email": "contact@example.com",
   "address": "123 Main St, New York, NY 10001",
+  "city": "New York",
   "latitude": 40.7128,
   "longitude": -74.0060,
   "social_links": {
@@ -310,6 +313,7 @@ POST /api/directories/{directory_id}/projects
     "phone_number": "+1 (555) 123-4567",
     "email": "contact@example.com",
     "address": "123 Main St, New York, NY 10001",
+    "city": "New York",
     "latitude": 40.7128,
     "longitude": -74.006,
     "social_links": {
@@ -424,6 +428,7 @@ POST /api/directories/{directory_id}/projects/bulk
 | `phone_number` | string | Phone number |
 | `email` | string | Contact email |
 | `address` | string | Physical address |
+| `city` | string | City or area, used by the location filter, city browsing and title patterns (max 255 characters). On update, send an empty value to clear it. If the directory has a custom field named `city`, the value is saved to that custom field instead |
 | `latitude` | float | Map latitude coordinate |
 | `longitude` | float | Map longitude coordinate |
 | `social_links` | object | Social media links (e.g., `{"twitter": "...", "linkedin": "..."}`) |
@@ -556,6 +561,7 @@ PUT /api/directories/{directory_id}/projects/{project_id}
   "phone_number": "+1 (555) 987-6543",
   "email": "new@example.com",
   "address": "456 Oak Ave, San Francisco, CA",
+  "city": "San Francisco",
   "latitude": 37.7749,
   "longitude": -122.4194,
   "social_links": {
@@ -605,6 +611,7 @@ Pass `ends_at: null` to remove an expiry date and make a listing permanent again
     "phone_number": "+1 (555) 987-6543",
     "email": "new@example.com",
     "address": "456 Oak Ave, San Francisco, CA",
+    "city": "San Francisco",
     "latitude": 37.7749,
     "longitude": -122.4194,
     "social_links": {

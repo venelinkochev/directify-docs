@@ -77,6 +77,24 @@ Similarly, updates made in Directify can be pushed back to Google Sheets using t
 
 **Pro Tip:** If you leave the **slug** column blank in Google Sheets, Directify will automatically generate it after syncing. The auto-generated slug will then be synced back to your Google Sheet for future matching.
 
+### **City Column**
+
+Each listing has a **City**, used by the location filter, city browsing and title patterns. Directify can fill it in from the address when the listing is geocoded, but a listing that already has a latitude and longitude in the sheet is not geocoded, so its City stays empty unless you provide it.
+
+To set it from your sheet:
+1. Add a column with the header `city` (lowercase) to your Listings sheet. Columns are matched by their header name, so the position doesn't matter. Templates created with **Create Template** already include it, right after `address`.
+2. Fill in the city for each row.
+3. Click **Pull from Google Sheets**. Existing listings are matched by their slug and updated, not duplicated.
+
+Good to know:
+- An empty `city` cell keeps the listing's current city. It never clears a city you typed in Directify or one that geocoding filled in.
+- When you change a listing's city in Directify, the `city` column in the sheet is updated too.
+- Use the same spelling for the same place in every row (for example always "Vélez-Málaga"), because listings are grouped by the exact city value.
+
+<Note>
+If your directory has a custom field named `city`, the `city` column fills that custom field and the listing's built-in City is left unchanged.
+</Note>
+
 ## **Automated Daily Sync**
 Directify automatically runs a sync every midnight (UTC) to ensure all changes in Google Sheets are reflected in your directory. This automated sync counts toward the 12-hour sync limitation.
 
