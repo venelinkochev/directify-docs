@@ -1,0 +1,144 @@
+---
+title: "Redirects"
+icon: "arrow-right-arrow-left"
+description: "Manage URL redirects for a directory through the Directify API - send old paths to new pages, or mark removed pages as gone."
+---
+
+## Redirects
+
+Redirects send visitors (and search engines) from an old address on your directory's domain to a new one. They are the same rules you manage under **Settings → Redirects** in the panel, useful when you migrate a site to Directify, rename pages, or retire listings.
+
+A redirect has three fields:
+
+- `from` - the old path on your own domain, starting with `/` and without the domain, e.g. `/old-page`. A path matches with or without a trailing slash, so `/old-page` and `/old-page/` are the same rule and only one of them can exist.
+- `to` - where to send the visitor: a path on your directory such as `/new-page`, or a full URL such as `https://example.com/landing`. Not needed for a 410.
+- `status` - `301` permanent redirect, `302` temporary redirect, or `410` gone (the page was removed on purpose; search engines drop it).
+
+### List Redirects
+
+```http
+GET /api/directories/{directory_id}/redirects
+```
+
+Returns 100 redirects per page, newest first.
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+- `page` (integer, optional): Page number
+- `search` (string, optional): Only redirects whose `from` or `to` contains this text
+- `status` (integer, optional): Only redirects with this status (`301`, `302` or `410`)
+
+**Response:**
+
+```json
+{
+  "data": [
+    {
+      "id": 12,
+      "from": "/old-page",
+      "to": "/new-page",
+      "status": 301,
+      "created_at": "2026-10-16T10:30:00.000000Z",
+      "updated_at": "2026-10-16T10:30:00.000000Z"
+    },
+    {
+      "id": 11,
+      "from": "/closed-listing",
+      "to": null,
+      "status": 410,
+      "created_at": "2026-10-15T09:00:00.000000Z",
+      "updated_at": "2026-10-15T09:00:00.000000Z"
+    }
+  ],
+  "links": { "first": "…", "last": "…", "prev": null, "next": null },
+  "meta": { "current_page": 1, "per_page": 100, "total": 2 }
+}
+```
+
+### Get Single Redirect
+
+```http
+GET /api/directories/{directory_id}/redirects/{redirect_id}
+```
+
+**Response:**
+
+```json
+{
+  "data": {
+    "id": 12,
+    "from": "/old-page",
+    "to": "/new-page",
+    "status": 301,
+    "created_at": "2026-10-16T10:30:00.000000Z",
+    "updated_at": "2026-10-16T10:30:00.000000Z"
+  }
+}
+```
+
+### Create Redirect
+
+```http
+POST /api/directories/{directory_id}/redirects
+```
+
+**Request Body:**
+
+```json
+{
+  "from": "/old-page",
+  "to": "/new-page",
+  "status": 301
+}
+```
+
+**Request Body Fields:**
+- `from` (string, required): The old path, starting with `/`, no domain, no spaces (max 255 characters). A missing leading slash is added for you. One rule per path.
+- `to` (string, required for 301 and 302): A path starting with `/` or a full `http(s)://` URL (max 255 characters). Ignored for 410.
+- `status` (integer, required): `301`, `302` or `410`
+
+A 410 needs no destination:
+
+```json
+{
+  "from": "/closed-listing",
+  "status": 410
+}
+```
+
+**Response:** the created redirect under `data`, status `201`.
+
+### Update Redirect
+
+```http
+PUT /api/directories/{directory_id}/redirects/{redirect_id}
+```
+
+Send only the fields you want to change. Setting `status` to `410` clears `to`.
+
+```json
+{
+  "to": "/another-page",
+  "status": 302
+}
+```
+
+### Delete Redirect
+
+```http
+DELETE /api/directories/{directory_id}/redirects/{redirect_id}
+```
+
+**Response:**
+
+```json
+{
+  "message": "Redirect deleted successfully"
+}
+```
+
+## Notes
+
+- Redirects are resolved before routing, so a `from` path can point at an address that has never existed on Directify, which is what you need when moving from another platform.
+- A `from` path cannot be the web address prefix of one of your directory's extra languages (for example `/es`).
+- Redirects take effect at once; cached pages for the directory are refreshed when a rule changes.
