@@ -679,3 +679,7 @@ DELETE /api/directories/{directory_id}/projects/{project_id}
   "message": "Project deleted successfully"
 }
 ```
+
+### Share image
+
+Create, update and bulk create accept `og_image` (string, optional): the share image URL for the listing page, printed as the `og:image` tag. Defaults to the listing's cover image. Send `null` to clear it. Listing responses include the resolved `og_image` URL.

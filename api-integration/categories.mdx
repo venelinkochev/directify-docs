@@ -170,6 +170,7 @@ POST /api/directories/{directory_id}/categories
 - `seo_title` (string, optional): SEO meta title (max 255 characters)
 - `seo_description` (string, optional): SEO meta description (max 500 characters)
 - `head_html` (string, optional): Custom HTML injected into the page `<head>` section, e.g. hreflang tags (max 10000 characters)
+- `og_image` (string, optional): Share image URL for the category page (the `og:image` tag). Defaults to the category icon, then the directory's image. Send `null` to clear it
 
 <Note>
 **Translations:** On multilingual directories, add a `translations` object keyed by language code, e.g. `"translations": {"es": {"title": "…"}}`. Send `null` for a field to remove its translation. See [Languages & Translations](/api-integration/languages).
@@ -237,6 +238,7 @@ PUT /api/directories/{directory_id}/categories/{category_id}
 - `seo_title` (string, optional): SEO meta title (max 255 characters)
 - `seo_description` (string, optional): SEO meta description (max 500 characters)
 - `head_html` (string, optional): Custom HTML injected into the page `<head>` section (max 10000 characters)
+- `og_image` (string, optional): Share image URL for the category page. Send `null` to clear it
 
 <Note>
 **Translations:** On multilingual directories, add a `translations` object keyed by language code, e.g. `"translations": {"es": {"title": "…"}}`. Send `null` for a field to remove its translation. See [Languages & Translations](/api-integration/languages).
