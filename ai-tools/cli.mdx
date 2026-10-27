@@ -66,6 +66,12 @@ directify fields list
 # Articles & pages
 directify articles list
 directify pages create --title "About Us" --placement navbar
+
+# Theme (design)
+directify theme get
+directify theme set --palette ocean --font Inter --hero-title "Best coffee in Austin"
+directify theme set --template restaurant --set template_settings.hero_city_search=true
+directify theme preview --page home --width 375 --out home.png
 ```
 
 Every command supports `--help`, and most accept `-d, --directory <id>` to target a specific directory (overriding the default) and `--json` for machine-readable output.
@@ -89,6 +95,7 @@ The CLI mirrors the API one-to-one. If a command errors with a validation messag
 | `organizers` | `list`, `get`, `create`, `update`, `delete` |
 | `articles` | `list`, `get`, `create`, `update`, `delete`, `toggle` |
 | `pages` | `list`, `get`, `create`, `update`, `delete`, `toggle` |
+| `theme` | `get`, `options`, `set`, `preview` |
 
 Run `directify --help` (or `directify <group> --help`) to see every command and option.
 
