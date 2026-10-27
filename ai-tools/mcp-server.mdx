@@ -195,6 +195,8 @@ Restart your AI client, then ask:
 
 > *"Which languages does this directory have? Add Spanish translations for the names and descriptions of my five newest listings."*
 
+> *"Switch the directory to the Ocean palette, use the Inter font, hide the footer's Quick Links column and show me the homepage on a phone."*
+
 ## What can it do?
 
 The MCP server exposes tools for every major part of your directory:
@@ -209,7 +211,13 @@ The MCP server exposes tools for every major part of your directory:
 | **Organizers** | list, get, create, update, delete |
 | **Articles** | list, get, create, update, delete, toggle published |
 | **Custom Pages** | list, get, create, update, delete, toggle published |
+| **Redirects** | list, get, create, update, delete URL redirects |
+| **Theme** | `get_theme` reads the whole design plus the valid options for the template; `update_theme` changes template, colors, fonts, hero, homepage sections, footer, images, labels and CSS vars; `preview_theme` screenshots a page so the assistant can see the result |
 | **Translations** | read any record in one of the directory's languages, write translations with any create or update |
+
+### Restyling a directory
+
+The theme tools cover everything the [Theme Editor](/design/customize-design) controls. The assistant calls `get_theme` first — its `options` block lists the valid templates, themes, fonts, palettes, section keys and per-template settings — then `update_theme` with only the keys to change, and `preview_theme` to look at the page at phone, tablet or desktop width. Brand images are set from URLs, and multilingual directories take `translations` for the hero texts and labels. See the [Theme API](/api-integration/theme) for every key.
 
 ### Multilingual directories
 

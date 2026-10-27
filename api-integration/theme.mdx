@@ -1,0 +1,217 @@
+---
+title: "Theme"
+icon: "palette"
+description: "Read and change a directory's design through the Directify API - template, colors, fonts, hero, homepage sections, footer, images and labels, with a screenshot endpoint to check the result."
+---
+
+## Theme
+
+The theme endpoints expose everything the **Theme Editor** controls as one JSON document: the template and base theme, brand colors, fonts, dark mode, the hero (text, background media, colors), buttons, homepage sections, the footer, brand images, the per-template settings, the editable front-end labels, the submitter panel and the raw DaisyUI CSS variables. A write goes through the same save path as the editor's **Save** button and is live at once.
+
+This is what lets an AI assistant restyle a directory: the [MCP server](/ai-tools/mcp-server) exposes these endpoints as the `get_theme`, `update_theme` and `preview_theme` tools, and the [CLI](/ai-tools/cli) as `directify theme`.
+
+<Tip>
+Always **read the theme first**. The response carries an `options` block with the valid values for the directory's template — templates, themes, fonts, palettes, section keys, template settings, labels, CSS variables and languages — so you only send keys the template renders. A key the template doesn't support returns a `422` naming the templates that do.
+</Tip>
+
+### Get Theme
+
+```http
+GET /api/directories/{directory_id}/theme
+```
+
+**Parameters:**
+- `directory_id` (integer, required): The ID of the directory
+- `locale` (string, optional): An extra language code. The hero title and subtitle, the homepage content and the labels come back as that language's translations (see [Languages](/api-integration/languages)).
+
+**Response:**
+
+```json
+{
+  "data": {
+    "template": "restaurant",
+    "theme": "light",
+    "brand": { "primary": "#1f2937", "secondary": null, "accent": "#f97316" },
+    "fonts": { "body": "Inter", "heading": null },
+    "dark_mode": { "auto": false, "theme": "dim" },
+    "hero": {
+      "title": "Best coffee in Austin",
+      "subtitle": "Hand-picked cafés, updated weekly",
+      "show_category_search": true,
+      "cover_image_opacity": 40,
+      "layout": { "height": null, "height_mobile": null, "background_size": null, "background_position": null, "background_repeat": null, "classes": null, "logo_size": "h-12", "logo_size_mobile": "h-8", "logo_classes": null },
+      "media": {
+        "type": "image",
+        "slideshow_interval": 5,
+        "slides": [null, null, null, null, null],
+        "video": { "source": "embed", "url": null, "file": null, "muted": true, "loop": true, "sound_button": false, "mobile_image": false }
+      },
+      "collage": null,
+      "colors": { "background": null, "directory_name": null, "title": "#111111", "description": null, "menu_item": null, "menu_item_hover": null, "submit_button": "#f97316", "…": "…" }
+    },
+    "buttons": { "background": "#f97316", "text": "#ffffff", "hover": null, "border": null, "border_hover": null },
+    "homepage": {
+      "content": "<p>Welcome</p>",
+      "top_categories": true,
+      "category_count": 8,
+      "map": false,
+      "map_placement": "above_listings",
+      "sections": [{ "key": "browse_categories", "enabled": true }, { "key": "featured", "enabled": true }, { "key": "cta", "enabled": false }],
+      "section_spacing": null,
+      "categories": []
+    },
+    "footer": {
+      "enabled": true,
+      "hide_title": false,
+      "show_browse_section": true,
+      "show_custom_pages_section": true,
+      "show_quick_links_section": true,
+      "show_business_login_link": true,
+      "show_business_login_link_header": true,
+      "copyright_text": "© 2026 Austin Coffee",
+      "colors": { "background": "#111111", "text": "#fafafa", "heading": null, "link_hover": null, "border": null, "copyright": null },
+      "sections": [{ "title": "Company", "title_color": null, "links": [{ "title": "About", "url": "/about", "target": "_self", "color": null, "hover_color": null }] }]
+    },
+    "media": {
+      "logo": "https://cdn.directify.app/directories/logos/….png",
+      "favicon": null,
+      "cover_image": "https://cdn.directify.app/directories/cover_images/….jpg",
+      "blog_cover_image": null,
+      "footer_logo": null
+    },
+    "template_settings": { "show_featured_filter": true, "hero_city_search": false, "nav_separator": "none", "…": "…" },
+    "labels": { "directory": { "submit_listing_button_label": "Add yours", "business_login_label": null, "…": null }, "project": { "…": null } },
+    "submitter_panel": { "dark_mode": true, "accent_color": null, "custom_links": [], "labels": {} },
+    "custom_css_vars": { "--color-primary": "#1f2937", "--color-primary-content": "#ffffff", "--radius-box": "1.5rem" },
+    "public_url": "https://austincoffee.com",
+    "locale": "en",
+    "translations": { "es": { "hero": { "title": "El mejor café de Austin", "subtitle": null }, "homepage": { "content": null }, "labels": {} } },
+    "options": {
+      "templates": [{ "value": "restaurant", "label": "Restaurant" }, "…"],
+      "themes": ["light", "dark", "cupcake", "…"],
+      "fonts": ["Poppins", "Inter", "…"],
+      "palettes": [{ "key": "ocean", "label": "Ocean", "primary": "#075985", "secondary": "…", "accent": "…" }, "…"],
+      "sections": [{ "key": "browse_categories", "label": "Browse by Cuisine", "description": "…", "default": true }, "…"],
+      "template_settings": { "hero_city_search": { "type": "bool", "templates": ["restaurant"], "description": "…" }, "nav_separator": { "type": "enum", "values": ["none", "dot", "pipe"], "…": "…" } },
+      "labels": { "directory": { "submit_listing_button_label": "Submit listing button label", "…": "…" } },
+      "submitter_labels": { "nav_dashboard": { "label": "Dashboard menu item", "default": "Dashboard" }, "…": "…" },
+      "custom_css_vars": ["--color-base-100", "--color-primary", "--radius-box", "…"],
+      "hero_media_supported": true,
+      "cover_image_supported": true,
+      "heading_font_supported": false,
+      "languages": { "default": "en", "extra": ["es"] },
+      "…": "…"
+    }
+  }
+}
+```
+
+`translations` is present on multilingual directories when no `locale` is given. The `options` block also carries the allowed `hero_heights`, `logo_sizes`, `category_counts`, `map_placements`, `slideshow_intervals`, `footer_link_targets` and the `*_supported` flags that say which groups this template renders.
+
+### Update Theme
+
+```http
+PUT /api/directories/{directory_id}/theme
+```
+
+A **partial update**: send only the groups and keys you want to change. Everything else keeps its value. The response is the full theme document after the change (same shape as the GET).
+
+**Body (every key optional):**
+
+```json
+{
+  "template": "restaurant",
+  "theme": "light",
+  "palette": "ocean",
+  "brand": { "primary": "#1f2937", "accent": "#f97316" },
+  "fonts": { "body": "Inter" },
+  "dark_mode": { "auto": true, "theme": "night" },
+  "hero": {
+    "title": "Best coffee in Austin",
+    "subtitle": "Hand-picked cafés",
+    "colors": { "title": "#111111" },
+    "media": { "type": "slideshow", "slideshow_interval": 8, "slides": ["https://…/1.jpg", "https://…/2.jpg"] }
+  },
+  "buttons": { "background": "#f97316", "text": "#ffffff" },
+  "homepage": { "category_count": 12, "sections": [{ "key": "cta", "enabled": false }] },
+  "footer": { "enabled": true, "copyright_text": "© 2026 Austin Coffee", "colors": { "background": "#111111" } },
+  "media": { "logo_url": "https://example.com/logo.png", "favicon_url": null },
+  "template_settings": { "hero_city_search": true, "nav_separator": "dot" },
+  "labels": { "directory": { "submit_listing_button_label": "Add yours" } },
+  "submitter_panel": { "accent_color": "#f97316" },
+  "custom_css_vars": { "--radius-box": "1.5rem", "--depth": null },
+  "translations": { "es": { "hero": { "title": "El mejor café de Austin" } } }
+}
+```
+
+| Group | Notes |
+|---|---|
+| `template` | Switch template. Applies the template's preset brand colors when it has one, and the rest of the request is validated against the **new** template. |
+| `theme` | A DaisyUI base theme from `options.themes`. |
+| `palette` | A canned palette key (`bold`, `pastel`, `mono`, `earthy`, `ocean`) — sets all three brand colors at once. |
+| `brand` | `primary`, `secondary`, `accent` as hex (`rgb()`, `hsl()` and `oklch()` are accepted). `null` clears one. The matching `-content` text colors are derived automatically. |
+| `fonts` | `body` from `options.fonts`; `heading` only on templates where `options.heading_font_supported` is true (`null` = template default). To use a Google Font that isn't listed, add it in the Theme Editor first. |
+| `dark_mode` | `auto` (not on templates with their own scheme) and the `theme` used in dark mode. |
+| `hero` | `title`, `subtitle`, `show_category_search`, `cover_image_opacity` (10–100), `layout` (`height`, `height_mobile`, `background_*` on modern; `logo_size`, `logo_size_mobile`, `logo_classes`), `colors` (keys as in the GET), `media` (only where `options.hero_media_supported`; `slides` are image URLs and replace all slides; `video.url` takes YouTube, Vimeo or a direct file link), `collage` (weddings only, `image_1` … `image_4` URLs). |
+| `buttons` | `background`, `text`, `hover`, `border`, `border_hover`. |
+| `homepage` | `content` (rich content above the footer), `top_categories`, `category_count` (4, 8, 12, 16), `map`, `map_placement`, `sections` (ordered `{key, enabled}` list, keys from `options.sections`), `section_spacing` (marketplace), `categories` (modern: curated `{id, enabled}` sections). |
+| `footer` | The flags, `copyright_text`, `colors` and `sections` (custom link columns; the list replaces all columns). |
+| `media` | `logo_url`, `favicon_url`, `cover_image_url`, `blog_cover_image_url`, `footer_logo_url`. Directify downloads the image (PNG, JPG, WebP, GIF, SVG or ICO, up to 10 MB) and stores a copy; `null` removes it. |
+| `template_settings` | The per-template toggles and selects. Keys and types are in `options.template_settings`. |
+| `labels` | Editable front-end strings by group and key (`options.labels`). `null` resets a label to its default. |
+| `submitter_panel` | `dark_mode`, `accent_color` (hex), `custom_links` (`{label, url, new_tab}` list), `labels` (keys from `options.submitter_labels`). |
+| `custom_css_vars` | DaisyUI variables from `options.custom_css_vars`, merged over the saved ones; `null` removes one. Brand colors follow `--color-primary` etc. |
+| `translations` | Keyed by **extra** language code: `hero.title`, `hero.subtitle`, `homepage.content`, `labels.{group}.{key}`. `null` removes a translation. The default language's text goes at the top level. |
+
+**Errors:** `422` with a message per field. Messages list the valid choices (templates, themes, fonts, section keys, template settings, CSS variables), so a wrong value can be corrected from the error alone. `?locale` is rejected on writes — use `translations`.
+
+<Warning>
+A `template` switch changes which design row the directory renders. Colors and hero settings are stored per template, so the new template shows its own saved values (or its defaults) until you set them.
+</Warning>
+
+### Preview (screenshot)
+
+```http
+GET /api/directories/{directory_id}/theme/preview
+```
+
+Captures one of the directory's pages so you can look at the result of a change.
+
+**Parameters:**
+- `page` (string, optional): `home` (default), `browse`, `categories`, `category`, `listing`, `blog`, `map` or `submit`. `category`, `listing` and `blog` need at least one record.
+- `width` (integer, optional): viewport width `375`, `768`, `1280` (default) or `1440`
+- `locale` (string, optional): an extra language code to capture that language's pages
+
+**Response:**
+
+```json
+{
+  "data": {
+    "url": "https://cdn.directify.app/directories/theme-previews/42/….png",
+    "page": "home",
+    "page_url": "https://austin-coffee.directify.xyz/?preview=1",
+    "width": 1280,
+    "height": 900,
+    "captured_at": "2026-10-27T10:30:00+00:00"
+  }
+}
+```
+
+Captures are cached for a minute and limited to **20 per hour per account**. A `422` explains why a capture wasn't possible (the page doesn't exist yet, or the screenshot provider is unavailable).
+
+### Example: restyle a directory
+
+```bash
+# 1. Read the theme and its options
+curl -s https://directify.app/api/directories/42/theme \
+  -H "Authorization: Bearer $DIRECTIFY_TOKEN" -H "Accept: application/json" | jq '.data.options.palettes'
+
+# 2. Change it
+curl -s -X PUT https://directify.app/api/directories/42/theme \
+  -H "Authorization: Bearer $DIRECTIFY_TOKEN" -H "Accept: application/json" -H "Content-Type: application/json" \
+  -d '{"palette":"ocean","fonts":{"body":"Inter"},"hero":{"title":"Best coffee in Austin"},"footer":{"enabled":true}}'
+
+# 3. Look at it
+curl -s "https://directify.app/api/directories/42/theme/preview?page=home&width=375" \
+  -H "Authorization: Bearer $DIRECTIFY_TOKEN" -H "Accept: application/json" | jq -r '.data.url'
+```

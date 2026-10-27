@@ -167,6 +167,7 @@
         "api-integration/articles",
         "api-integration/pages",
         "api-integration/redirects",
+        "api-integration/theme",
         "api-integration/sdk-examples"
       ]
     }
