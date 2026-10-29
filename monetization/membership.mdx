@@ -1,0 +1,66 @@
+---
+title: 'Membership Access – Put Your Directory Behind a Paywall'
+sidebarTitle: 'Membership Access'
+description: 'Charge visitors a subscription or one-time fee to access your directory. Members pay through your own Stripe account; you decide whether the whole site or only the listing pages need a membership.'
+icon: 'lock'
+---
+
+Membership access turns a directory into a paid product: visitors create a free account on your directory, buy a plan through **your** Stripe account, and get in. You keep every cent (minus Stripe's fee). Owners, your team and anyone you grant access to always see everything.
+
+<Note>
+  Membership checkout works with Stripe. If your payment provider is **Custom (payment links)**, the plan's payment link is used and you grant access by hand on the Members page. Lemon Squeezy, Creem and PayPal checkout are not supported for memberships yet; manual grants still work.
+</Note>
+
+## Setup
+
+<Steps>
+  <Step title="Create a membership plan in Stripe">
+    In your Stripe dashboard, add a product with a recurring price (monthly or yearly membership) or a one-time price (lifetime access).
+  </Step>
+  <Step title="Pull the plan into Directify">
+    Go to **Monetize → Payment Providers**, click **Verify Credentials and Pull Plans**, open the new plan and set its **Plan type** to **Membership (visitor access)**. Membership plans never appear in listing flows, pricing tables or the submit form.
+  </Step>
+  <Step title="Turn membership on">
+    Go to **Monetize → Membership** and enable **Require a membership to view this directory**. Pick what needs a membership (see below), tick the plans to sell, and adjust the paywall copy. Save.
+  </Step>
+</Steps>
+
+## What needs a membership
+
+| Mode | Behaviour |
+| --- | --- |
+| **The whole directory** | Everything needs a membership except the pages you mark as public. Non-members are sent to the membership page; on a listing page they see a teaser instead. |
+| **Listing pages only** | Browsing, search, categories, the map and the blog stay public. Opening a listing shows the teaser and the plans until the visitor joins. |
+
+**Pages that stay public** (whole-directory mode): homepage, category pages, blog, custom pages, the submit form, organizers and the map. Keep the homepage and your custom pages public so you have somewhere to pitch the membership. Your pricing page, forms, bookings and the business dashboard are always reachable.
+
+**Teaser**: non-members see the listing name, image, category and the first lines of its description above the plans. Search engines index that teaser, so your listing pages keep ranking. Turn it off to show the plain membership page instead.
+
+## The membership page
+
+Every gated directory gets a page at `/membership` with the plans you selected, your heading and text, and log-in / sign-up links. Checkout is Stripe Checkout with promotion codes allowed. After paying, the visitor lands on a thank-you page and is sent back to the page they were trying to open.
+
+- Subscription plans renew through Stripe. When a member cancels, access runs until the end of the paid period.
+- One-time plans grant lifetime access.
+- A failed renewal keeps access while Stripe retries the card (status *Past due*). When Stripe gives up, access ends.
+
+Members manage their membership in the business dashboard (**Membership** in the menu): plan, renewal date and a **Cancel membership** button.
+
+## Managing members
+
+**Monetize → Members** lists everyone with access: plan, status, source (Stripe or manual), start and end dates.
+
+- **Grant access** creates the visitor account if the email is new (they receive their login details), activates the membership immediately and sends the *Membership activated* email. Set an end date for trials or comps, or leave it empty.
+- **Revoke** ends access now. For Stripe members the subscription stops renewing; refunds are handled in your Stripe dashboard.
+- **Reactivate** restores access for an expired or revoked member without a payment.
+
+## Emails
+
+The **Membership activated** email (Settings → Email Templates) goes out when a membership starts: after checkout, when a subscription becomes active again, and on manual grants. It is sent through your own email provider when one is configured.
+
+## Good to know
+
+- The paywall never caches: members and non-members always see the right version of a page.
+- Owners and team accounts with access to the directory bypass the gate, as do Theme Editor previews.
+- Listing owners who are not members see the teaser like everyone else; grant them access from the Members page if you want them in.
+- Field-level paywalls (hide only the phone number or the website behind a membership) are on the roadmap, not in this release.

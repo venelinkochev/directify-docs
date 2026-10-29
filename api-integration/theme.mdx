@@ -197,7 +197,7 @@ Captures one of the directory's pages so you can look at the result of a change.
 }
 ```
 
-Captures are cached for a minute and limited to **20 per hour per account**. A `422` explains why a capture wasn't possible (the page doesn't exist yet, or the screenshot provider is unavailable).
+Captures are taken on the directory's Directify subdomain in preview mode, which bypasses the password gate and the page cache, so they always show the theme as last saved; the content is the same as on a connected custom domain. Captures are cached for a minute and limited to **20 per hour per account**. A `422` explains why a capture wasn't possible (the page doesn't exist yet, or the screenshot provider is unavailable).
 
 ### Example: restyle a directory
 

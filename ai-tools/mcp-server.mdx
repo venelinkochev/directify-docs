@@ -31,8 +31,8 @@ Once connected, you simply chat:
 ## Step 1 — Get your credentials
 
 <Steps>
-  <Step title="Generate an API token">
-    In your Directify dashboard, go to **Settings → API** and click the **Key icon** to generate a token. Copy it — it's shown only once.
+  <Step title="Generate an API token (config-file setups only)">
+    Claude.ai, Claude Desktop connectors and ChatGPT sign you in with your Directify account when you connect — no token needed. For clients you configure by file (Claude Code, Cursor, `mcp-remote`), go to **Settings → API** in your Directify dashboard and click the **Key icon** to generate a token. Copy it — it's shown only once.
   </Step>
   <Step title="Note your Directory ID">
     Find it in the dashboard URL (`/app/{directory_id}/...`). It's optional in most setups — if you skip it, the assistant will ask which directory to use, or you can say *"list my directories"*.
@@ -55,6 +55,22 @@ Once connected, you simply chat:
 Replace `YOUR_API_TOKEN` with your token and `YOUR_DIRECTORY_ID` with your directory's ID in the examples below.
 
 <Tabs>
+  <Tab title="Claude.ai & ChatGPT">
+    Both connect to the hosted server with a sign-in, so there is nothing to paste.
+
+    <Steps>
+      <Step title="Add the connector">
+        **Claude:** open [Directify in the Claude Connectors Directory](https://claude.ai/directory/connectors/directify) and click **Connect**. (It is also under **Settings → Connectors → Browse connectors** in Claude; you can still add it as a custom connector with the URL `https://mcp.directify.app/mcp`.)
+
+        **ChatGPT:** in developer mode go to **Settings → Connectors → Create** and enter `https://mcp.directify.app/mcp`.
+      </Step>
+      <Step title="Click Connect and sign in">
+        You land on a Directify page that shows which client is asking and what it will be able to do. Sign in if you are not already, then click **Approve**. You are sent straight back to the chat.
+      </Step>
+    </Steps>
+
+    Approving creates an API key named after the client (for example `Claude (MCP)`) under **Settings → API**; delete it there to disconnect. Prefer an existing key? The sign-in page has a **Paste an API key instead** link. API access needs the Starter plan or higher.
+  </Tab>
   <Tab title="Claude Desktop">
     Open **Settings → Developer → Edit Config**, or edit the file directly:
 
@@ -173,7 +189,7 @@ Replace `YOUR_API_TOKEN` with your token and `YOUR_DIRECTORY_ID` with your direc
       --header "X-Directory-ID:YOUR_DIRECTORY_ID"
     ```
 
-    For clients that natively support remote MCP over OAuth (such as Claude.ai web connectors), add `https://mcp.directify.app/mcp` as the server URL and complete the sign-in prompt instead of passing a token header.
+    For clients that natively support remote MCP over OAuth, add `https://mcp.directify.app/mcp` as the server URL and sign in with your Directify account when prompted (see the **Claude.ai & ChatGPT** tab) instead of passing a token header.
   </Tab>
 </Tabs>
 

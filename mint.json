@@ -125,6 +125,12 @@
       ]
     },
     {
+      "group": "Membership",
+      "pages": [
+        "monetization/membership"
+      ]
+    },
+    {
       "group": "Blog",
       "pages": [
         "blog/add-article",
